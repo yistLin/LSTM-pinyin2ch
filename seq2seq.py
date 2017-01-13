@@ -216,7 +216,7 @@ with graph.as_default():
     train_prediction = tf.nn.softmax(logits)
     
     # Sampling and validation eval: batch 1, no unrolling.
-    sample_input = [tf.placeholder(tf.float32, shape=[1, vocabulary_size])]
+    sample_input = tf.placeholder(tf.float32, shape=(1, vocabulary_size))
     saved_sample_output = tf.Variable(tf.zeros([1, num_nodes]))
     saved_sample_state = tf.Variable(tf.zeros([1, num_nodes]))
     reset_sample_state = tf.group(saved_sample_output.assign(tf.zeros([1, num_nodes])),saved_sample_state.assign(tf.zeros([1, num_nodes])))
