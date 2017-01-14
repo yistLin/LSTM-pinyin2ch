@@ -19,8 +19,7 @@ def maybe_download(filename, expected_bytes):
         print('Found and verified %s' % filename)
     else:
         print(statinfo.st_size)
-        raise Exception(
-            'Failed to verify ' + filename + '. Can you get to it with a browser?')
+        raise Exception('Failed to verify ' + filename + '. Can you get to it with a browser?')
     return filename
 
 filename = maybe_download('text8.zip', 31344016)
@@ -41,7 +40,8 @@ train_size = len(train_text)
 print(train_size, train_text[:64])
 print(valid_size, valid_text[:64])
 
-vocabulary_size = len(string.ascii_lowercase) + 1 # [a-z] + ' '
+# [a-z] + ' '
+vocabulary_size = len(string.ascii_lowercase) + 1
 first_letter = ord(string.ascii_lowercase[0])
 
 def char2id(char):
@@ -84,9 +84,7 @@ class BatchGenerator(object):
         return batch
 
     def next(self):
-        """Generate the next array of batches from the data. The array consists of
-        the last batch of the previous array, followed by num_unrollings new ones.
-        """
+        """Generate the next array of batches from the data. The array consists of the last batch of the previous array, followed by num_unrollings new ones."""
         batches = [self._last_batch]
         for step in range(self._num_unrollings):
             batches.append(self._next_batch())
@@ -94,13 +92,11 @@ class BatchGenerator(object):
         return batches
 
 def characters(probabilities):
-    """Turn a 1-hot encoding or a probability distribution over the possible
-    characters back into its (most likely) character representation."""
+    """Turn a 1-hot encoding or a probability distribution over the possible characters back into its (most likely) character representation."""
     return [id2char(c) for c in np.argmax(probabilities, 1)]
 
 def batches2string(batches):
-    """Convert a sequence of batches back into their (most likely) string
-    representation."""
+    """Convert a sequence of batches back into their (most likely) string representation."""
     s = [''] * batches[0].shape[0]
     for b in batches:
         s = [''.join(x) for x in zip(s, characters(b))]
@@ -120,9 +116,7 @@ def logprob(predictions, labels):
     return np.sum(np.multiply(labels, -np.log(predictions))) / labels.shape[0]
 
 def sample_distribution(distribution):
-    """Sample one element from a distribution assumed to be an array of normalized
-    probabilities.
-    """
+    """Sample one element from a distribution assumed to be an array of normalized probabilities."""
     r = random.uniform(0, 1)
     s = 0
     for i in range(len(distribution)):
@@ -146,7 +140,6 @@ num_nodes = 64
 
 graph = tf.Graph()
 with graph.as_default():
-
     # Parameters:
     # Input gate: input, previous output, and bias.
     ix = tf.Variable(tf.truncated_normal([vocabulary_size, num_nodes], -0.1, 0.1))
@@ -173,9 +166,7 @@ with graph.as_default():
     
     # Definition of the cell computation.
     def lstm_cell(i, o, state):
-        """Create a LSTM cell. See e.g.: http://arxiv.org/pdf/1402.1128v1.pdf
-        Note that in this formulation, we omit the various connections between the
-        previous state and the gates."""
+        """Create a LSTM cell. See e.g.: http://arxiv.org/pdf/1402.1128v1.pdf Note that in this formulation, we omit the various connections between the previous state and the gates."""
         input_gate = tf.sigmoid(tf.matmul(i, ix) + tf.matmul(o, im) + ib)
         forget_gate = tf.sigmoid(tf.matmul(i, fx) + tf.matmul(o, fm) + fb)
         update = tf.matmul(i, cx) + tf.matmul(o, cm) + cb
@@ -228,7 +219,7 @@ num_steps = 7001
 summary_frequency = 100
 
 with tf.Session(graph=graph) as session:
-    tf.initialize_all_variables().run()
+    tf.global_variables_initializer().run()
     print('Initialized')
     mean_loss = 0
     for step in range(num_steps):
