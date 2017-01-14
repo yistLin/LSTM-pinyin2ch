@@ -36,6 +36,7 @@ vocab_size = len(id2char)
 # line_sp[1] is pinyin characters as input
 train_input_list = []
 train_label_list = []
+max_len_input = 0
 for line in train_data_f:
     line_sp = line.strip('\n').split('\t')
     train_input_list.append( line_sp[1] )
