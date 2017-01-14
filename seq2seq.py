@@ -1,66 +1,61 @@
+#!/usr/bin/env python3
 from __future__ import print_function
-import os
+import os, sys
 import numpy as np
 import random
 import string
 import tensorflow as tf
-import zipfile
-from six.moves import range
-from six.moves.urllib.request import urlretrieve
 
-url = 'http://mattmahoney.net/dc/'
+# get train data and valid data filename
+try:
+    vocab_filename = sys.argv[1]
+    train_data_filename = sys.argv[2]
+    valid_data_filename = sys.argv[3]
+except Exception:
+    print('Cannot get data')
+    sys.exit(1)
 
-def maybe_download(filename, expected_bytes):
-    """Download a file if not present, and make sure it's the right size."""
-    if not os.path.exists(filename):
-        filename, _ = urlretrieve(url + filename, filename)
-    statinfo = os.stat(filename)
-    if statinfo.st_size == expected_bytes:
-        print('Found and verified %s' % filename)
-    else:
-        print(statinfo.st_size)
-        raise Exception('Failed to verify ' + filename + '. Can you get to it with a browser?')
-    return filename
+# open training file
+train_data_f = open(train_data_filename, 'r')
+valid_data_f = open(valid_data_filename, 'r')
+vocab_f = open(vocab_filename, 'r')
 
-filename = maybe_download('text8.zip', 31344016)
+# all pinyin and 0-9
+char2id = {}
+id2char = []
+cnt = 0
+for line in vocab_f:
+    v = line.strip()
+    id2char.append(v)
+    char2id[v] = cnt
+    cnt += 1
+vocab_size = len(id2char)
 
-def read_data(filename):
-    f = zipfile.ZipFile(filename)
-    for name in f.namelist():
-        return tf.compat.as_str(f.read(name))
-    f.close()
+# train data and valid data
+# line_sp[0] is chinese characters as label
+# line_sp[1] is pinyin characters as input
+train_input_list = []
+train_label_list = []
+for line in train_data_f:
+    line_sp = line.strip('\n').split('\t')
+    train_input_list.append( line_sp[1] )
+    train_label_list.append( line_sp[0] )
+valid_input_list = []
+valid_label_list = []
+for line in valid_data_f:
+    line_sp = line.strip('\n').split('\t')
+    valid_input_list.append( line_sp[1] )
+    valid_label_list.append( line_sp[0] )
 
-text = read_data(filename)
-print('Data size %d' % len(text))
+# close training file
+vocab_f.close()
+train_data_f.close()
+valid_data_f.close()
 
-valid_size = 1000
-valid_text = text[:valid_size]
-train_text = text[valid_size:]
-train_size = len(train_text)
-print(train_size, train_text[:64])
-print(valid_size, valid_text[:64])
-
-# [a-z] + ' '
-vocabulary_size = len(string.ascii_lowercase) + 1
-first_letter = ord(string.ascii_lowercase[0])
-
-def char2id(char):
-    if char in string.ascii_lowercase:
-        return ord(char) - first_letter + 1
-    elif char == ' ':
-        return 0
-    else:
-        print('Unexpected character: %s' % char)
-        return 0
-    
-def id2char(dictid):
-    if dictid > 0:
-        return chr(dictid + first_letter - 1)
-    else:
-        return ' '
-
-print(char2id('a'), char2id('z'), char2id(' '), char2id('ï'))
-print(id2char(1), id2char(26), id2char(0))
+# testing vocab
+print('testing vocab:')
+print('char2id{}:', char2id['song'], char2id['zi'], char2id['wei'], char2id['9'])
+print('id2char[]:', id2char[1], id2char[26], id2char[10])
 
 batch_size=64
 num_unrollings=10
