@@ -8890,7 +8890,6 @@ $
 我 不 是 登 记 来 做 笼 子 打 斗 的	wo bu shi deng ji lai zuo long zi da dou de
 打 开	da kai
 把 练 子 拿 掉	ba lian zi na diao
-嘿 ~ ~	hei
 你 逃 不 掉 了	ni tao bu diao le
 我 可 以 玩 你 三 分 钟	wo ke yi wan ni san fen zhong
 三 分 钟 的 玩 乐 时 间	san fen zhong de wan le shi jian
@@ -8946,7 +8945,6 @@ $
 怎 么 了	zen me le
 有 人 受 伤 了	you ren shou shang le
 借 过	jie guo
-借 过 ~	jie guo
 后 退	hou tui
 后 退	hou tui
 那 是 我 叔 叔	na shi wo shu shu
@@ -9476,7 +9474,6 @@ $
 嗨	hai
 妈 妈	ma ma
 妈 妈	ma ma
-唷 呵 ~	yo a
 妈 妈	ma ma
 在 这 里	zai zhe li
 亲 爱 的	qin ai de
@@ -11144,10 +11141,8 @@ $
 你 在 里 面 放 了 什 么	ni zai li mian fang le shen me
 她 说	ta shuo
 我 的 屎	wo de shi
-啊 ~ ~ ~	a
 怎 么 了	zen me le
 甜 心	tian xin
-啊 ~ ~ ~	a
 放 开 我	fang kai wo
 放 手	fang shou
 噢	o
@@ -14611,7 +14606,6 @@ $
 怎 么 做	zen me zuo
 用 太 阳 能 电 站 的 电 缆 当 防 风 绳	yong tai yang neng dian zhan de dian lan dang fang feng sheng
 小 心	xiao xin
-啊 ~ ~ ~ ~	a
 警 告   宇 宙 飞 行 服 受 损	jing gao  yu zhou fei xing fu shou sun
 怎 么 了	zen me le
 请 回 答	qing hui da
@@ -14715,7 +14709,6 @@ $
 不 足	bu zu
 气 压	qi ya
 稳 定	wen ding
-啊 ~	a
 任 务 日 期	ren wu ri qi
 第 1 9 个 火 星 日	di 1 9 ge huo xing ri
 嗨	hai
@@ -15332,7 +15325,6 @@ $
 你 有 些 奇 怪 的 德 语 爱 慕 邮 件	ni you xie qi guai de de yu ai mu you jian
 他 们 在 做 遥 感 更 新	ta men zai zuo yao gan geng xin
 嘿	hei
-管 他 们 为 你 干 什 么 呢 ~ ~	guan ta men wei ni gan shen me ne
 至	zhi
 全 体 组 员   视 频 文 件	quan ti zu yuan  shi pin wen jian
 接 收	jie shou
