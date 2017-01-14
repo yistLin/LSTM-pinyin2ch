@@ -34,19 +34,19 @@ vocab_size = len(id2char)
 # train data and valid data
 # line_sp[0] is chinese characters as label
 # line_sp[1] is pinyin characters as input
-train_input_list = []
-train_label_list = []
-max_len_input = 0
+train_list = []
 for line in train_data_f:
     line_sp = line.strip('\n').split('\t')
-    train_input_list.append( line_sp[1] )
-    train_label_list.append( line_sp[0] )
-valid_input_list = []
-valid_label_list = []
+    label_arr = list(map(lambda x: char2id[x], line_sp[1].split()))
+    char_arr = line_sp[0].split()
+    train_list.append( (label_arr, char_arr) )
+
+valid_list = []
 for line in valid_data_f:
     line_sp = line.strip('\n').split('\t')
-    valid_input_list.append( line_sp[1] )
-    valid_label_list.append( line_sp[0] )
+    label_arr = list(map(lambda x: char2id[x], line_sp[1].split()))
+    char_arr = line_sp[0].split()
+    valid_list.append( (label_arr, char_arr) )
 
 # close training file
 vocab_f.close()
@@ -62,30 +62,20 @@ batch_size=64
 num_unrollings=10
 
 class BatchGenerator(object):
-    def __init__(self, text, batch_size, num_unrollings):
-        self._text = text
-        self._text_size = len(text)
+    def __init__(self, data, batch_size):
+        self._data = data
         self._batch_size = batch_size
-        self._num_unrollings = num_unrollings
-        segment = self._text_size // batch_size
-        self._cursor = [ offset * segment for offset in range(batch_size)]
-        self._last_batch = self._next_batch()
+        self.start = 0
+        self.end = 0
+        self._length = len(data)
     
-    def _next_batch(self):
-        """Generate a single batch from the current cursor position in the data."""
-        batch = np.zeros(shape=(self._batch_size, vocabulary_size), dtype=np.float)
-        for b in range(self._batch_size):
-            batch[b, char2id(self._text[self._cursor[b]])] = 1.0
-            self._cursor[b] = (self._cursor[b] + 1) % self._text_size
-        return batch
-
     def next(self):
-        """Generate the next array of batches from the data. The array consists of the last batch of the previous array, followed by num_unrollings new ones."""
-        batches = [self._last_batch]
-        for step in range(self._num_unrollings):
-            batches.append(self._next_batch())
-        self._last_batch = batches[-1]
-        return batches
+        while True:
+            if self.end + self._batch_size > self._length:
+                break
+            self.end += self._batch_size
+            yield list(zip(*self._data[self.start:self.end]))
+            self.start = self.end
 
 def characters(probabilities):
     """Turn a 1-hot encoding or a probability distribution over the possible characters back into its (most likely) character representation."""
@@ -98,13 +88,13 @@ def batches2string(batches):
         s = [''.join(x) for x in zip(s, characters(b))]
     return s
 
-train_batches = BatchGenerator(train_text, batch_size, num_unrollings)
-valid_batches = BatchGenerator(valid_text, 1, 1)
+train_batches = BatchGenerator(train_list, batch_size)
+valid_batches = BatchGenerator(valid_list, 1)
 
-print(batches2string(train_batches.next()))
-print(batches2string(train_batches.next()))
-print(batches2string(valid_batches.next()))
-print(batches2string(valid_batches.next()))
+for data in train_batches.next():
+    print(data)
+
+sys.exit(1)
 
 def logprob(predictions, labels):
     """Log-probability of the true labels in a predicted batch."""
