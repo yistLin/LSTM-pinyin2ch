@@ -1334,7 +1334,7 @@
 怎 么 了	zen me le
 有 个 张 牙 舞 爪 的 土 著 人	you ge zhang ya wu zhao de tu zhe ren
 挡 住 了 我 的 去 路	dang zhu le wo de qu lu
-嗯	
+嗯	en
 你 走 你 的	ni zou ni de
 他 会 躲 开	ta hui duo kai
 应 该 让 他 们 知 道 我 们 是 挡 不 住 的   走 吧	ying gai rang ta men zhi dao wo men shi dang bu zhu de  zou ba
@@ -2753,7 +2753,7 @@
 撞 得 不 轻 啊	zhuang de bu qing a
 会 好 的	hui hao de
 我 听 说 你 刚 从 牢 里 出 来	wo ting shuo ni gang cong lao li chu lai
-嗯	
+嗯	en
 听 说 过 吉 姆	ting shuo guo ji mu
 加 西 亚 吗	jia xi ya ma
 没 有   地 方 大   很 多 名 字   很 多 面 孔	mei you  di fang da  hen duo ming zi  hen duo mian kong
@@ -2897,7 +2897,7 @@
 有 人 撞 毁 了 她 的 车	you ren zhuang hui le ta de che
 我 撞 的	wo zhuang de
 你 还 记 得 那 张 脸 吗	ni hai ji de na zhang lian ma
-嗯	
+嗯	en
 我 可 忘 了	wo ke wang le
 上 次 我 见 到 它   在 燃 烧	shang ci wo jian dao ta  zai ran shao
 现 在 又 怎 样	xian zai you zen yang
@@ -2926,7 +2926,7 @@
 把 他 们 带 来   明 白 吗	ba ta men dai lai  ming bai ma
 奥 康 纳	ao kang na
 六 千 万 就 是 这 样 子	liu qian wan jiu shi zhe yang zi
-嗯   你 得 去 找 医 生 看 看	ni de qu zhao yi sheng kan kan
+嗯   你 得 去 找 医 生 看 看	en ni de qu zhao yi sheng kan kan
 我 们 要 找 个 地 方 把 它 藏 起 来	wo men yao zhao ge di fang ba ta cang qi lai
 我 有 个 地 方	wo you ge di fang
 5 0 2 号   酒 后 驾 车   需 要 4 8 小 时 扣 押	5 0 2 hao  jiu hou jia che  xu yao 4 8 xiao shi kou ya
@@ -2936,7 +2936,7 @@
 我 在 想	wo zai xiang
 你 炸 毁 你 的 车 的 时 候   把 我 的 也 炸 了	ni zha hui ni de che de shi hou  ba wo de ye zha le
 是 吗	shi ma
-嗯	
+嗯	en
 你 欠 我 一 辆 跑 车	ni qian wo yi liang pao che
 是 吗	shi ma
 是 的	shi de
@@ -2949,7 +2949,7 @@
 我 打 赌 你 很 享 受 这 个	wo da du ni hen xiang shou zhe ge
 有 点	you dian
 要 这 个 吗	yao zhe ge ma
-嗯	
+嗯	en
 辣 的	la de
 我 很 喜 欢	wo hen xi huan
 多 姆   你 怎 么 了	duo mu  ni zen me le
@@ -2959,7 +2959,7 @@
 你 问 我 为 什 么 放 走 多 姆	ni wen wo wei shen me fang zou duo mu
 我 想 是 因 为 那 个 时 刻	wo xiang shi yin wei na ge shi ke
 我 尊 重 他 胜 过 我 自 己	wo zun zhong ta sheng guo wo zi ji
-嗯	
+嗯	en
 我 从 多 姆 身 上 学 到 的 是   什 么 都 不 重 要   除 非 你 有 准 则	wo cong duo mu shen shang xue dao de shi  shen me dou bu zhong yao  chu fei ni you zhun ze
 你 的 准 则 是 什 么   布 莱 恩	ni de zhun ze shi shen me  bu lai en
 正 在 找 呢	zheng zai zhao ne
@@ -3011,7 +3011,7 @@
 我 自 己 有 点 公 事	wo zi ji you dian gong shi
 让 坎 波 斯 接 电 话	rang kan bo si jie dian hua
 是 他 们	shi ta men
-嗯	
+嗯	en
 布 拉 加 就 这 样 表 现 诚 意	bu la jia jiu zhe yang biao xian cheng yi
 卸 磨 杀 驴	xie mo sha lv
 总 能 找 到 更 多 的 车 手	zong neng zhao dao geng duo de che shou
@@ -3041,7 +3041,7 @@
 来 了	lai le
 以 防 万 一	yi fang wan yi
 像 以 前 一 样	xiang yi qian yi yang
-嗯	
+嗯	en
 你 掉 东 西 了	ni diao dong xi le
 这 就 是 你 想 要 的	zhe jiu shi ni xiang yao de
 多 姆	duo mu
@@ -3169,7 +3169,7 @@
 你 得 离 开 这	ni de li kai zhe
 我 不 再 逃 跑 了	wo bu zai tao pao le
 我 问 你 件 事	wo wen ni jian shi
-嗯	
+嗯	en
 你 知 道 如 果 你 不 作 弊   那 次 赛 车 我 就 赢 了   对 吧	ni zhi dao ru guo ni bu zuo bi  na ci sai che wo jiu ying le  dui ba
 你 头 撞 得 不 轻 吧	ni tou zhuang de bu qing ba
 别 让 我 笑 了	bie rang wo xiao le
@@ -3852,7 +3852,7 @@
 库 珀	ku po
 请 领 域 展 开 合 作	qing ling yu zhan kai he zuo
 与 这 些 人	yu zhe xie ren
-嗯	
+嗯	en
 这 很 难 解 释	zhe hen nan jie shi
 我 们 需 要	wo men xu yao
 我 们 把 这 些	wo men ba zhe xie
@@ -4445,7 +4445,7 @@
 是 的	shi de
 是 的	shi de
 给 了 我 第 二 次	gei le wo di er ci
-嗯	
+嗯	en
 我 想 我 们 有	wo xiang wo men you
 好 吧	hao ba
 我 没 拿	wo mei na
@@ -4893,7 +4893,7 @@
 为 避 免	wei bi mian
 的 时 间 延 迟	de shi jian yan chi
 背 后 的 顶 点	bei hou de ding dian
-嗯	
+嗯	en
 这 是 几 乎 在 这 里	zhe shi ji hu zai zhe li
 米 勒 的 星 球 附 近	mi lei de xing qiu fu jin
 准 确 的	zhun que de
@@ -8510,7 +8510,7 @@
 喔	o
 班	ban
 你 会 找 到 另 一 份 工 作 的	ni hui zhao dao ling yi fen gong zuo de
-嗯	
+嗯	en
 让 我 找 一 下 报 纸	rang wo zhao yi xia bao zhi
 这 里 有 征 人 广 告	zhe li you zheng ren guang gao
 看 他 们 要 什 么	kan ta men yao shen me
@@ -8572,7 +8572,7 @@
 回 到 方 程 式	hui dao fang cheng shi
 真 怪	zhen guai
 彼 特	bi te
-嗯	
+嗯	en
 你 还 好 吧	ni hai hao ba
 我	wo
 很 好	hen hao
@@ -8644,7 +8644,7 @@
 你 有 蓝 眼 珠	ni you lan yan zhu
 我 以 前 都 没 注 意 到	wo yi qian dou mei zhu yi dao
 你 戴 隐 形 眼 镜	ni dai yin xing yan jing
-嗯	
+嗯	en
 怎 么 了	zen me le
 他 真 是 怪	ta zhen shi guai
 你 看 到 了 吗	ni kan dao le ma
@@ -9567,7 +9567,7 @@ $
 小 姑 娘	xiao gu niang
 你 将 事 情 迫 上 梁 山 了	ni jiang shi qing po shang liang shan le
 爸 爸	ba ba
-嗯	
+嗯	en
 人 是 要 向 前 看 的	ren shi yao xiang qian kan de
 我 是 希 望 她 可 以 留 下 来 的	wo shi xi wang ta ke yi liu xia lai de
 我 不 相 信	wo bu xiang xin
@@ -9728,8 +9728,8 @@ $
 然 后	ran hou
 我 们 过 一 会 便 可 以 去 海 边 走 走	wo men guo yi hui bian ke yi qu hai bian zou zou
 好 吗	hao ma
-嗯	
-嗯	
+嗯	en
+嗯	en
 没 事	mei shi
 去 用 屋 里 的 洗 手 间 吧	qu yong wu li de xi shou jian ba
 没 问 题 的	mei wen ti de
@@ -10039,7 +10039,7 @@ $
 已 经 有 5 个 女 仆 拒 绝 了 我	yi jing you 5 ge nv pu ju jue le wo
 至 少 给 我 机 会 让 你 赚 回 车 资 吧	zhi shao gei wo ji hui rang ni zhuan hui che zi ba
 慢 着	man zhe
-嗯	
+嗯	en
 你 听 到 我 说 不 愿 意 清 洁 这 房 子 吗	ni ting dao wo shuo bu yuan yi qing jie zhe fang zi ma
 那 么	na me
 你 是 愿 意 了	ni shi yuan yi le
@@ -10071,7 +10071,7 @@ $
 那 我 明 天 大 约 9	na wo ming tian da yue 9
 1 5 来 这 里	1 5 lai zhe li
 很 好	hen hao
-嗯	
+嗯	en
 我 想 你 的 蛋 糕 烤 焦 了	wo xiang ni de dan gao kao jiao le
 可 恨 的 蛋 糕	ke hen de dan gao
 好 了	hao le
@@ -10111,7 +10111,7 @@ $
 我 快 忍 不 住 了	wo kuai ren bu zhu le
 他 要 来 了	ta yao lai le
 就 下 周 六	jiu xia zhou liu
-嗯	
+嗯	en
 他 取 消 过 两 次 了	ta qu xiao guo liang ci le
 你 不 觉 得 这 是 个 讯 号 吗	ni bu jue de zhe shi ge xun hao ma
 你 怎 么 说 这 种 话	ni zen me shuo zhe zhong hua
@@ -10191,7 +10191,7 @@ $
 我 一 生 人 可 从 未 放 过 没 薪 的 假 期	wo yi sheng ren ke cong wei fang guo mei xin de jia qi
 一 星 期 后 我 回 去	yi xing qi hou wo hui qu
 对 吗	dui ma
-嗯	
+嗯	en
 我 们 要 找 多 点 女 仆 来	wo men yao zhao duo dian nv pu lai
 那 不 容 易 的	na bu rong yi de
 不 信 你 去 试 试	bu xin ni qu shi shi
@@ -10515,7 +10515,7 @@ $
 从 来 没 有	cong lai mei you
 从 来 没 有	cong lai mei you
 我	wo
-嗯	
+嗯	en
 一 定 就 是 这 点 了	yi ding jiu shi zhe dian le
 什 么	shen me
 我 说 你	wo shuo ni
@@ -11275,10 +11275,10 @@ $
 请 坐	qing zuo
 谢 谢	xie xie
 你 有 检 查 过 吗	ni you jian cha guo ma
-嗯	
+嗯	en
 彻 底 煮 透	che di zhu tou
 中 间 不 会 有 粉 红 色	zhong jian bu hui you fen hong se
-嗯	
+嗯	en
 就 依 你 教 我 的	jiu yi ni jiao wo de
 看 看 这 些	kan kan zhe xie
 那 一 整 桌 的 菜	na yi zheng zhuo de cai
@@ -11519,7 +11519,6 @@ $
 祝 您 入 住 愉 快	zhu nin ru zhu yu kuai
 不 好 意 思	bu hao yi si
 如 果 我 们 要 理 发       需 要 提 前 一 天 告 知 前 台     对 吗	ru guo wo men yao li fa    xu yao ti qian yi tian gao zhi qian tai   dui ma
-嗯 是 的                                                                                                                                                                                                   知 道 了	shi de                                                                                                  zhi dao le
 他 的 房 间 号 是 1 0 1	ta de fang jian hao shi 1 0 1
 一 把 麻 醉 枪 挂 在 他 的 床 边 的 墙 上	yi ba ma zui qiang gua zai ta de chuang bian de qiang shang
 在 桌 上       放 着 2 0 个 麻 醉 针 头	zai zhuo shang    fang zhe 2 0 ge ma zui zhen tou
@@ -11565,7 +11564,7 @@ $
 是 我 的 职 责	shi wo de zhi ze
 有 没 有 想 好 如 果 没 有 配 对 成 功	you mei you xiang hao ru guo mei you pei dui cheng gong
 你 想 变 成 什 么 动 物	ni xiang bian cheng shen me dong wu
-嗯   我 想 变 成 龙 虾	wo xiang bian cheng long xia
+嗯   我 想 变 成 龙 虾	en wo xiang bian cheng long xia
 为 什 么 是 龙 虾	wei shen me shi long xia
 因 为 龙 虾 可 以 活 将 近 1 0 0 年	yin wei long xia ke yi huo jiang jin 1 0 0 nian
 蓝 色 的 血 液       像 一 件 工 艺 品	lan se de xue ye    xiang yi jian gong yi pin
@@ -11854,7 +11853,7 @@ $
 并 且 还 会 时 不 时 的 流 鼻 血	bing qie hai hui shi bu shi de liu bi xue
 变 成 一 种 动 物   被 更 大 的 动 物 吃 掉	bian cheng yi zhong dong wu  bei geng da de dong wu chi diao
 对   就 是 这 样	dui  jiu shi zhe yang
-嗯 哼	heng
+嗯 哼	en heng
 她 没 有 怀 疑 你 在 撒 谎	ta mei you huai yi ni zai sa huang
 没 有	mei you
 我 非 常 高 兴   我 们 诞 生 了 一 对 新 的 伴 侣	wo fei chang gao xing  wo men dan sheng le yi dui xin de ban lv
@@ -12013,10 +12012,10 @@ $
 没 关 系	mei guan xi
 他 呻 吟 了 一 下	ta shen yin le yi xia
 就 像 这 样	jiu xiang zhe yang
-嗯	
-嗯	
-嗯	
-嗯	
+嗯	en
+嗯	en
+嗯	en
+嗯	en
 一 定 是 痛 的 呻 吟	yi ding shi tong de shen yin
 你 没 有 听 到	ni mei you ting dao
 你 可 真 是 深 度 睡 眠 的 人	ni ke zhen shi shen du shui mian de ren
@@ -12224,7 +12223,6 @@ $
 女 性     黑 发   5 2 岁	nv xing   hei fa  5 2 sui
 证 件 已 经 在 2 个 月 前 过 期 了	zheng jian yi jing zai 2 ge yue qian guo qi le
 我 的 丈 夫 出 差 了	wo de zhang fu chu cha le
-嗯       我 检 查 一 下	wo jian cha yi xia
 手	shou
 指 甲 里 没 有 脏 物       鞋 底 没 有 泥 土	zhi jia li mei you zang wu    xie di mei you ni tu
 拜 尔 赛 街 9 号	bai er sai jie 9 hao
@@ -12260,7 +12258,7 @@ $
 这 速 度 挺 好 的	zhe su du ting hao de
 或 许 你 可 以 不 这 样 紧 紧 的 捏 着 我 的 手       这 样 我 的 拳 头 就 不 会 出 汗 了	huo xu ni ke yi bu zhe yang jin jin de nie zhe wo de shou    zhe yang wo de quan tou jiu bu hui chu han le
 这 样 好 些 了 吗	zhe yang hao xie le ma
-嗯	
+嗯	en
 好 多 了	hao duo le
 你 想 给 你 自 己 买 点 什 么 吗	ni xiang gei ni zi ji mai dian shen me ma
 趁 我 们 还 在 这	chen wo men hai zai zhe
@@ -12341,7 +12339,7 @@ $
 一 个 篮 球 大 约 重 5 5 0 克 至 6 5 0 克	yi ge lan qiu da yue zhong 5 5 0 ke zhi 6 5 0 ke
 你 知 道 吗	ni zhi dao ma
 不       我 并 不 知 道	bu    wo bing bu zhi dao
-嗯	
+嗯	en
 重 量 会 根 据 男 女 不 同 而 不 一 样	zhong liang hui gen ju nan nv bu tong er bu yi yang
 你 知 道 排 球 多 重 吗	ni zhi dao pai qiu duo zhong ma
 不 知 道       不 过 我 想 知 道	bu zhi dao    bu guo wo xiang zhi dao
@@ -12382,7 +12380,7 @@ $
 使 我 冷 静	shi wo leng jing
 我 很 喜 欢	wo hen xi huan
 我 完 全 可 以 独 自 生 活	wo wan quan ke yi du zi sheng huo
-嗯	
+嗯	en
 安 静 点	an jing dian
 拿 着	na zhe
 朝 她 开 枪	chao ta kai qiang
@@ -12579,7 +12577,7 @@ $
 我 要 把 你 一 个 人 留 在 这 儿	wo yao ba ni yi ge ren liu zai zhe er
 我 不 觉 得 你 能 自 己 找 到 我 们 聚 集 点	wo bu jue de ni neng zi ji zhao dao wo men ju ji dian
 你 喜 欢 这 儿 的 风 景 吗	ni xi huan zhe er de feng jing ma
-嗯	
+嗯	en
 你 的 手 怎 么 了	ni de shou zen me le
 我 在 砍 树 枝 的 时 候 不 小 心 伤 到 了 手	wo zai kan shu zhi de shi hou bu xiao xin shang dao le shou
 你 今 天 看 上 去 很 英 俊 呢       你 去 剪 头 发 了	ni jin tian kan shang qu hen ying jun ne    ni qu jian tou fa le
@@ -14540,7 +14538,7 @@ $
 我 们 需 要 通 知 下 媒 体 吗	wo men xu yao tong zhi xia mei ti ma
 好 吧	hao ba
 你 今 天 有 做 了 什 么 吗	ni jin tian you zuo le shen me ma
-嗯	
+嗯	en
 你 要 知 道	ni yao zhi dao
 目 检 设 备	mu jian she bei
 是 任 务 成 功 所 必 须 的	shi ren wu cheng gong suo bi xu de
@@ -14664,7 +14662,7 @@ $
 她 在 竭 尽 全 力	ta zai jie jin quan li
 距 离 探 测 雷 达 没 有 探 测 到 回 应	ju li tan ce lei da mei you tan ce dao hui ying
 什 么 都 没 有	shen me dou mei you
-嗯	
+嗯	en
 队 长	dui zhang
 我 知 道 你 不 想 听	wo zhi dao ni bu xiang ting
 但 是	dan shi
@@ -15195,7 +15193,7 @@ $
 你 好	ni hao
 你 好	ni hao
 飞 行 还 顺 利 吧	fei xing hai shun li ba
-嗯	
+嗯	en
 它 就 在 拐 角 那 个 仓 库 里	ta jiu zai guai jiao na ge cang ku li
 很 高 兴 认 识 你	hen gao xing ren shi ni
 我 也 是	wo ye shi
@@ -15466,7 +15464,7 @@ $
 他 早 就 死 了	ta zao jiu si le
 我 们 得 更 改 计 划 时 间 表	wo men de geng gai ji hua shi jian biao
 赶 紧 进 行 救 援 任 务	gan jin jin xing jiu yuan ren wu
-嗯	
+嗯	en
 我 们 正 在 努 力	wo men zheng zai nu li
 之 前 预 估 的 是 4 1 4 天 航 行 时 间	zhi qian yu gu de shi 4 1 4 tian hang xing shi jian
 现 在 已 经 是 第 1 3 5 个 火 星 日 了	xian zai yi jing shi di 1 3 5 ge huo xing ri le
@@ -15554,7 +15552,7 @@ $
 不 如 怎 样	bu ru zen yang
 你 知 道 我 是 你 老 板	ni zhi dao wo shi ni lao ban
 对 吧	dui ba
-嗯 哼	heng
+嗯 哼	en heng
 来 问 个 贵 到 爆 的 事	lai wen ge gui dao bao de shi
 飞 船 能 否 按 时 准 备 好	fei chuan neng fou an shi zhun bei hao
 有 点 儿 滞 后	you dian er zhi hou
@@ -15749,7 +15747,7 @@ $
 我 理 解	wo li jie
 谢 谢	xie xie
 好	hao
-嗯	
+嗯	en
 我 们 还 有 另 一 次 机 会	wo men hai you ling yi ci ji hui
 我 们 曾 在 6 2 天 内 完 成 了 艾 瑞 斯 号 飞 船	wo men ceng zai 6 2 tian nei wan cheng le ai rui si hao fei chuan
 现 在 我 们 要 在 2 8 天 内 弄 完	xian zai wo men yao zai 2 8 tian nei nong wan
@@ -15832,7 +15830,7 @@ $
 对	dui
 你 怎 么 看	ni zen me kan
 我 们 需 要 用 到 太 阳 神 号	wo men xu yao yong dao tai yang shen hao
-嗯 哼	heng
+嗯 哼	en heng
 没 搞 懂	mei gao dong
 为 什 么 太 阳 神 这 么 重 要	wei shen me tai yang shen zhe me zhong yao
 因 为 我 们 只 能 搞 一 个 项 目	yin wei wo men zhi neng gao yi ge xiang mu
@@ -15868,7 +15866,7 @@ $
 在	zai
 我 知 道 现 在 是 你 的 私 人 时 间	wo zhi dao xian zai shi ni de si ren shi jian
 能 打 扰 你 一 会 吗	neng da rao ni yi hui ma
-嗯	
+嗯	en
 可 以 啊	ke yi a
 你 在 哪 儿	ni zai na er
 健 身 房	jian shen fang
@@ -16218,14 +16216,14 @@ $
 你 看 他 说 的 意 思 是 不 是	ni kan ta shuo de yi si shi bu shi
 不 是 开 玩 笑 吧	bu shi kai wan xiao ba
 是 吧	shi ba
-嗯 哼	heng
+嗯 哼	en heng
 或 者 不 是 开 玩 笑 吧	huo zhe bu shi kai wan xiao ba
 我 觉 得 可 能 是 第 二 种 语 气	wo jue de ke neng shi di er zhong yu qi
 真 的	zhen de
-嗯 哼	heng
+嗯 哼	en heng
 也 有 可 能 是 第 一 种 语 气	ye you ke neng shi di yi zhong yu qi
 不 是 开 玩 笑 吧	bu shi kai wan xiao ba
-嗯	
+嗯	en
 也 有 可 能 是 第 一 种	ye you ke neng shi di yi zhong
 第 5 3 8 个 火 星 日	di 5 3 8 ge huo xing ri
 斯 基 亚 帕 雷 利   环 形 山	si ji ya pa lei li  huan xing shan
@@ -16572,7 +16570,7 @@ $
 我 应 该 把 这 货 扔 在 火 星 上	wo ying gai ba zhe huo reng zai huo xing shang
 嘿	hei
 糖	tang
-嗯	
+嗯	en
 帮 我 扶 一 下	bang wo fu yi xia
 液 氧	ye yang
 加 点 儿 含 氨 的 去 污 剂	jia dian er han an de qu wu ji
@@ -20599,7 +20597,7 @@ $
 很 高 兴 见 到 你	hen gao xing jian dao ni
 查 尔 斯	cha er si
 很 高 兴 见 到 大 家	hen gao xing jian dao da jia
-嗯	
+嗯	en
 我 得 遵 守 约 定 啊	wo de zun shou yue ding a
 我 们 俩 有 很 多 事 情 要 聊 聊	wo men lia you hen duo shi qing yao liao liao
 对	dui
