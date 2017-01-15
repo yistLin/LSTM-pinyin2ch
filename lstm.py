@@ -8,6 +8,7 @@ try:
     vocab_filename = sys.argv[1]
     train_data_filename = sys.argv[2]
     valid_data_filename = sys.argv[3]
+    test_data_filename = sys.argv[4]
 except Exception:
     print('Cannot get data')
     sys.exit(1)
@@ -58,21 +59,24 @@ for line in train_data_f:
     raw_ch_list = line_sp[0].split()
     if min_length <= len(raw_pinyin_list) <= padding_length:
         raw_pinyin_list += ['_PAD'] * (padding_length - len(raw_pinyin_list))
-        pinyin_list = np.zeros(shape=(len(raw_pinyin_list), vocab_size), dtype=np.float)
+        # pinyin_list = np.zeros(shape=(len(raw_pinyin_list), vocab_size), dtype=np.float)
         raw_ch_list += ['_PAD'] * (padding_length - len(raw_ch_list))
-        ch_list = np.zeros(shape=(len(raw_ch_list), ch_vocab_size), dtype=np.float)
-        for (i, word) in enumerate(raw_pinyin_list):
-            pinyin_list[i, char2id[word]] = 1.0
-        for (i, word) in enumerate(raw_ch_list):
-            ch_list[i, ch_dict[word]] = 1.0
-        train_list.append( (pinyin_list, ch_list) )
+        # ch_list = np.zeros(shape=(len(raw_ch_list), ch_vocab_size), dtype=np.float)
+        # for (i, word) in enumerate(raw_pinyin_list):
+        #    pinyin_list[i, char2id[word]] = 1.0
+        # for (i, word) in enumerate(raw_ch_list):
+        #    ch_list[i, ch_dict[word]] = 1.0
+        train_list.append( (raw_pinyin_list, raw_ch_list) )
 
 valid_list = []
 for line in valid_data_f:
     line_sp = line.strip('\n').split('\t')
-    pinyin_list = list(map(lambda x: char2id[x], line_sp[1].split()))
-    ch_list = line_sp[0].split()
-    valid_list.append( (pinyin_list, ch_list, len(pinyin_list)) )
+    raw_pinyin_list = line_sp[1].split()
+    raw_ch_list = line_sp[0].split()
+    if min_length <= len(raw_pinyin_list) <= padding_length:
+        raw_pinyin_list += ['_PAD'] * (padding_length - len(raw_pinyin_list))
+        raw_ch_list += ['_PAD'] * (padding_length - len(raw_ch_list))
+        valid_list.append( (raw_pinyin_list, raw_ch_list) )
 
 # close training file
 vocab_f.close()
@@ -88,17 +92,30 @@ class BatchGenerator(object):
         self.start = 0
         self.end = 0
         self._length = len(data)
-        self.batch = []
-        self.prepare_batch()
+        # self.batch = []
+        # self.prepare_batch()
 
-    def prepare_batch(self):
+    def next(self):
         while True:
             # print(self.start, self.end, self._length)
             if self.end + self._batch_size > self._length:
                 break
             self.end += self._batch_size
-            self.batch.append(list(zip(*self._data[self.start:self.end])))
+
+            yield self.__get_one_hot()
             self.start = self.end
+
+    def __get_one_hot(self):
+        batch_list = []
+        for batch in self._data[self.start:self.end]:
+            pin_list = np.zeros(shape=(padding_length, vocab_size), dtype=np.float)
+            ch_list = np.zeros(shape=(padding_length, ch_vocab_size), dtype=np.float)
+            for (i, word) in enumerate(batch[0]):
+                pin_list[i, char2id[word]] = 1.0
+            for (i, word) in enumerate(batch[1]):
+                ch_list[i, ch_dict[word]] = 1.0
+            batch_list.append( (pin_list, ch_list) )
+        return list(zip(*batch_list))
 
 class LSTM_cell(object):
 
@@ -276,16 +293,12 @@ rnn = LSTM_cell(vocab_size, hidden_layer_size, ch_vocab_size)
 
 # Getting all outputs from rnn
 outputs = tf.transpose(rnn.get_outputs(), perm=[1, 0, 2])
-print('outputs shape: ', outputs.get_shape())
-
-# Getting final output through indexing after reversing
-# last_output = tf.reverse(outputs, [True, False, False])[0, :, :]
-# print('last output shape: ', last_output.get_shape())
 
 # As rnn model output the final layer through Relu activation softmax is
 # used for final output.
 output = tf.nn.softmax(outputs, dim=-1)
-print('output shape: ', output.get_shape())
+prediction = tf.argmax(output, axis=2)
+label = tf.argmax(y, axis=2)
 
 # Computing the Cross Entropy loss
 cross_entropy = -tf.reduce_sum(y * tf.log(output))
@@ -294,7 +307,7 @@ cross_entropy = -tf.reduce_sum(y * tf.log(output))
 train_step = tf.train.AdamOptimizer().minimize(cross_entropy)
 
 # Calculatio of correct prediction and accuracy
-correct_prediction = tf.equal(tf.argmax(y, axis=2), tf.argmax(output, axis=2))
+correct_prediction = tf.equal(label, prediction)
 accuracy = (tf.reduce_mean(tf.cast(correct_prediction, tf.float32))) * 100
 
 # # Dataset Preparation
@@ -305,24 +318,30 @@ sess = tf.InteractiveSession()
 sess.run(tf.global_variables_initializer())
 
 # Iterations to do trainning
+total_loss, train_acc, test_acc = 0, 0, 0
+batch_cnt, batch_print = 0, 500
 for epoch in range(300):
 
-    total_loss, train_acc, test_acc = 0, 0, 0
-    batches = train_batches.batch
-    random.shuffle(batches)
-    for batch in batches:
+    batch_cnt = total_loss = train_acc = test_acc = 0
+    # random.shuffle(batches)
+    for batch in train_batches.next():
         _, loss, _train_acc = sess.run([train_step, cross_entropy, accuracy], feed_dict={rnn._inputs: batch[0], y: batch[1]})
-        total_loss += loss / batch_size
+        total_loss += loss
         train_acc += _train_acc
 
-        #Loss = sess.run(cross_entropy, feed_dict={
-        #    rnn._inputs: train_batches.batch[0][0], y: train_batches.batch[0][1]})
-        #Train_accuracy = str(sess.run(accuracy, feed_dict={
-        #    rnn._inputs: train_batches.batch[0][0], y: train_batches.batch[0][1]}))
-        Test_accuracy = str(sess.run(accuracy, feed_dict={
-            rnn._inputs: train_batches.batch[0][0], y: train_batches.batch[0][1]}))
+        batch_cnt += 1
+        if batch_cnt % batch_print == 0:
+            batch_pack = []
+            for vb in valid_batches.next():
+                batch_pack.append( (vb[0][0], vb[1][0]) )
+            batch_zip = list(zip(*batch_pack))
+            valid_acc = str(sess.run(accuracy, feed_dict={
+                rnn._inputs: batch_zip[0], y: batch_zip[1]}))
 
-    sys.stdout.flush()
-    print("\rIteration: %s Loss: %s Train Accuracy: %s%% Test Accuracy: %s%%" %
-          (epoch, str(total_loss/len(train_batches.batch)), str(train_acc/len(train_batches.batch)), str(Test_accuracy))),
-    sys.stdout.flush()
+            valid_acc /= len(valid_batches.batch)
+
+            print("\nEpoch [%s] #batch: %s, loss: %s, train accuracy: %s%%, valid accuracy: %s%%" %
+                    (epoch, str(total_loss/(batch_print*batch_size)),
+                    str(train_acc/(batch_print*batch_size)), str(valid_acc))),
+            sys.stdout.flush()
+            total_loss = train_acc = test_acc = 0
