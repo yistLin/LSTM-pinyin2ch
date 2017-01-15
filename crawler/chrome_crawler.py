@@ -9,6 +9,10 @@ search = "http://subhd.com/a/"
 
 start = 48
 end = 50
+"""
+Need to download the 'chromedriver' from
+https://sites.google.com/a/chromium.org/chromedriver/home
+"""
 chromedriver = "./dsp_final/chromedriver"
 driver = webdriver.Chrome(chromedriver)
 os.environ["webdriver.chrome.driver"] = chromedriver
