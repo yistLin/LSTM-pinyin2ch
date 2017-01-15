@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ $# -ne 3 ]; then
+	echo "Usage: ./parse_subtitles.sh [input directory] [output directory] [output directory/output file name]"
+	exit -1
+fi
+
 inputdir=$1
 outputdir=$2
 outputfile=$3
