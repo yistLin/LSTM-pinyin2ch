@@ -4,21 +4,26 @@ import numpy as np
 import sys
 import random
 
-if len(sys.argv) != 5:
-  print("Usage: ./lstm.py [source vocabularies list] [train data] [valid data] [test data]")
+if len(sys.argv) < 8:
+  print("Usage: ./lstm.py [#layer] [#batch] [train dir] [source vocabularies list] [train data] [valid data] [test data] [--decode]")
   sys.exit(-1)
 
 print('\n********** Program Start **********')
 
 # get train data and valid data filename
 try:
-    vocab_filename = sys.argv[1]
-    train_data_filename = sys.argv[2]
-    valid_data_filename = sys.argv[3]
-    test_data_filename = sys.argv[4]
+    hidden_layer_size = int(sys.argv[1])
+    batch_size = int(sys.argv[2])
+    train_dir = sys.argv[3]
+    vocab_filename = sys.argv[4]
+    train_data_filename = sys.argv[5]
+    valid_data_filename = sys.argv[6]
+    test_data_filename = sys.argv[7]
 except Exception:
     print('[Error] cannot get data')
     sys.exit(1)
+
+decode_mode = True if '--decode' in sys.argv else False
 
 # open training file
 train_data_f = open(train_data_filename, 'r')
@@ -95,7 +100,7 @@ vocab_f.close()
 train_data_f.close()
 valid_data_f.close()
 
-batch_size = 32
+# batch_size = 32
 
 class BatchGenerator(object):
     def __init__(self, data, batch_size):
@@ -283,7 +288,7 @@ def process_batch_input_for_RNN(batch_input):
 
 # # Placeholder and initializers
 
-hidden_layer_size = 32
+# hidden_layer_size = 32
 
 y = tf.placeholder(tf.float32, shape=[None, max_padding_len, ch_vocab_size], name='inputs')
 
@@ -325,9 +330,22 @@ print('\n[Train] create session')
 sess = tf.InteractiveSession()
 sess.run(tf.global_variables_initializer())
 
+# Create saver for all variables
+saver = tf.train.Saver()
+model_save_path = train_dir + 'model.ckpt'
+
+if decode_mode:
+    ckpt = tf.train.get_checkpoint_state(train_dir)
+    if ckpt and ckpt.model_checkpoint_path:
+        saver.restore(sess, ckpt.model_checkpoint_path)
+        print('\n[Decode] model successfully restore from path: %s' % model_save_path)
+    else:
+        print('\n[Decode] fail to find checkpoint')
+    sys.exit(1)
+
 # Iterations to do trainning
 total_loss, train_acc, test_acc = 0, 0, 0
-batch_cnt, batch_print = 0, 100
+batch_cnt, batch_print = 0, 500
 max_epoch = 300
 
 print('\n[Train] start to train')
@@ -348,7 +366,7 @@ for epoch in range(max_epoch):
         if batch_cnt == batch_print:
             batch_pack = []
             valid_batch_size = 1
-            
+
             valid_batches = BatchGenerator(valid_list, valid_batch_size)
             for vb in valid_batches.next():
                 batch_pack.append( (vb[0][0], vb[1][0]) )
@@ -364,3 +382,9 @@ for epoch in range(max_epoch):
                     str(valid_acc) ) )
             sys.stdout.flush()
             batch_cnt = total_loss = train_acc = test_acc = 0
+
+    # save the model
+    if epoch % 5 == 0 and epoch != 0:
+        save_path = saver.save(sess, model_save_path, global_step=epoch)
+        print('\n[Train] save model to path: %s' % save_path)
+
