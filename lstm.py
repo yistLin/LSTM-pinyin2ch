@@ -339,8 +339,29 @@ if decode_mode:
     if ckpt and ckpt.model_checkpoint_path:
         saver.restore(sess, ckpt.model_checkpoint_path)
         print('\n[Decode] model successfully restore from path: %s' % model_save_path)
+        
+        while True:
+            sys.stdout.write("> ")
+            sys.stdout.flush()
+            sentence = sys.stdin.readline()
+            if not sentence:
+                break
+            our_sentence = sentence.strip().split()
+            our_sentence += ['_PAD'] * (max_padding_len - len(our_sentence))
+            our_list = np.zeros(shape=(max_padding_len, vocab_size), dtype=np.float)
+            for (i, word) in enumerate(our_sentence):
+                w = py2id[word] if word in py2id else py2id['_UNK']
+                our_list[i, w] = 1.0
+        
+            pred_output = sess.run([prediction], feed_dict={rnn._inputs: [our_list]})
+            real_output = []
+            for p in pred_output[0][0]:
+                real_output.append( id2ch[p] )
+            print('real_output =', real_output)
+
     else:
         print('\n[Decode] fail to find checkpoint')
+
     sys.exit(1)
 
 # Iterations to do trainning
