@@ -3,6 +3,8 @@ import numpy as np
 import sys
 import random
 
+print('\n********** Program Start **********')
+
 # get train data and valid data filename
 try:
     vocab_filename = sys.argv[1]
@@ -10,7 +12,7 @@ try:
     valid_data_filename = sys.argv[3]
     test_data_filename = sys.argv[4]
 except Exception:
-    print('Cannot get data')
+    print('[Error] cannot get data')
     sys.exit(1)
 
 # open training file
@@ -57,7 +59,7 @@ for line in train_data_f:
 ch_vocab_size = len(ch2id)
 train_data_f.seek(0)
 
-print('dictionary: py2id, ch2id and id2ch built')
+print('\n[Dict] py2id, ch2id and id2ch built')
 
 # read in train data
 for line in train_data_f:
@@ -80,7 +82,7 @@ for line in valid_data_f:
         raw_ch_list += ['_PAD'] * (padding_length - len(raw_ch_list))
         valid_list.append( (raw_pinyin_list, raw_ch_list) )
 
-print('[Data] train and valid data read')
+print('\n[Data] train and valid data read')
 
 # close training file
 vocab_f.close()
@@ -275,7 +277,7 @@ class LSTM_cell(object):
 
         return all_outputs
 
-print('[Model] Batch Generator and LSTM defined')
+print('\n[Model] Batch Generator and LSTM defined')
 
 # Function to convert batch input data to use scan ops of tensorflow.
 def process_batch_input_for_RNN(batch_input):
@@ -300,6 +302,7 @@ rnn = LSTM_cell(vocab_size, hidden_layer_size, ch_vocab_size)
 
 # Getting all outputs from rnn
 outputs = tf.transpose(rnn.get_outputs(), perm=[1, 0, 2])
+print('outputs:', outputs.get_shape())
 
 # As rnn model output the final layer through Relu activation softmax is
 # used for final output.
@@ -307,15 +310,22 @@ output = tf.nn.softmax(outputs, dim=-1)
 prediction = tf.argmax(output, axis=2)
 label = tf.argmax(y, axis=2)
 
+print('output:', output.get_shape())
+print('prediection:', prediction.get_shape())
+print('label:', label.get_shape())
+
 # Computing the Cross Entropy loss
 cross_entropy = -tf.reduce_sum(y * tf.log(output))
+print('cross_entropy:', cross_entropy.get_shape())
 
 # Trainning with Adadelta Optimizer
 train_step = tf.train.AdamOptimizer().minimize(cross_entropy)
 
 # Calculatio of correct prediction and accuracy
 correct_prediction = tf.equal(label, prediction)
-accuracy = (tf.reduce_mean(tf.cast(correct_prediction, tf.float32))) * 100
+accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32)) * 100
+print('correct_prediction:', correct_prediction.get_shape())
+print('accuracy:', accuracy.get_shape())
 
 # # Dataset Preparation
 # for d in train_batches.next():
@@ -323,24 +333,24 @@ accuracy = (tf.reduce_mean(tf.cast(correct_prediction, tf.float32))) * 100
 
 # sys.exit(-1)
 
-print('[Train] create session')
+print('\n[Train] create session')
 
 sess = tf.InteractiveSession()
 sess.run(tf.global_variables_initializer())
 
 # Iterations to do trainning
 total_loss, train_acc, test_acc = 0, 0, 0
-batch_cnt, batch_print = 0, 500
+batch_cnt, batch_print = 0, 100
 max_epoch = 300
 
-print('[Train] start to train')
+print('\n[Train] start to train')
 print('[Train] epoch at most %d' % max_epoch)
 
 for epoch in range(max_epoch):
 
-    print('[Train] epoch %d' % epoch)
+    print('\n[Train] epoch %d' % epoch)
 
-    total_loss = train_acc = test_acc = 0
+    # batch_cnt, total_loss, train_acc, test_acc = 0, 0, 0, 0
     train_batches = BatchGenerator(train_list, batch_size)
     for batch in train_batches.next():
         _, loss, _train_acc = sess.run([train_step, cross_entropy, accuracy], feed_dict={rnn._inputs: batch[0], y: batch[1]})
@@ -348,20 +358,22 @@ for epoch in range(max_epoch):
         train_acc += _train_acc
 
         batch_cnt += 1
-        if batch_cnt % batch_print == 0:
+        if batch_cnt == batch_print:
             batch_pack = []
             valid_batch_size = 1
+            
             valid_batches = BatchGenerator(valid_list, valid_batch_size)
             for vb in valid_batches.next():
                 batch_pack.append( (vb[0][0], vb[1][0]) )
             batch_zip = list(zip(*batch_pack))
             valid_acc = sess.run(accuracy, feed_dict={
-                rnn._inputs: batch_zip[0], y: batch_zip[1]})
+                    rnn._inputs: batch_zip[0],
+                    y: batch_zip[1]})
 
-            valid_acc /= valid_batch_size
-
-            print("\nEpoch [%s] #batch: %s, loss: %s, train accuracy: %s%%, valid accuracy: %s%%" %
-                    (epoch, str(batch_cnt), str(total_loss/(batch_print*batch_size)),
-                    str(train_acc/(batch_print*batch_size)), str(valid_acc))),
+            print("\nEpoch [%s] #batch: %s, loss: %s, train accuracy: %s%%, valid accuracy: %s%%" % (
+                    epoch, str(batch_cnt),
+                    str(total_loss/(batch_print*batch_size)),
+                    str(train_acc/batch_print),
+                    str(valid_acc) ) )
             sys.stdout.flush()
-            total_loss = train_acc = test_acc = 0
+            batch_cnt = total_loss = train_acc = test_acc = 0
