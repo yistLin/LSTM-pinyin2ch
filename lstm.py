@@ -20,15 +20,13 @@ vocab_f = open(vocab_filename, 'r')
 
 # all pinyin and 0-9
 char2id = {}
-id2char = []
 cnt = 0
 for line in vocab_f:
     v = line.strip()
-    id2char.append(v)
     char2id[v] = cnt
     cnt += 1
 
-vocab_size = len(id2char)
+vocab_size = len(char2id)
 ch_vocab_size = 20000
 min_length, padding_length = 3, 15
 
@@ -36,9 +34,10 @@ min_length, padding_length = 3, 15
 # line_sp[0] is chinese characters as label
 # line_sp[1] is pinyin characters as input
 ch_dict = {}
-ch_index = 0
+ch_index = 2
 train_list = []
 ch_dict['_PAD'] = 0
+ch_dict['_UNK'] = 1
 
 # build chinese characters mapping
 for line in train_data_f:
@@ -48,26 +47,23 @@ for line in train_data_f:
         raw_ch_list = line_sp[0].split()
         for ch in raw_ch_list:
             if ch not in ch_dict:
-                ch_index += 1
                 ch_dict[ch] = ch_index
-ch_vocab_size = len(ch_dict)
+                ch_index += 1
 
+ch_vocab_size = len(ch_dict)
 train_data_f.seek(0)
+
+# read in train data
 for line in train_data_f:
     line_sp = line.strip('\n').split('\t')
     raw_pinyin_list = line_sp[1].split()
     raw_ch_list = line_sp[0].split()
     if min_length <= len(raw_pinyin_list) <= padding_length:
         raw_pinyin_list += ['_PAD'] * (padding_length - len(raw_pinyin_list))
-        # pinyin_list = np.zeros(shape=(len(raw_pinyin_list), vocab_size), dtype=np.float)
         raw_ch_list += ['_PAD'] * (padding_length - len(raw_ch_list))
-        # ch_list = np.zeros(shape=(len(raw_ch_list), ch_vocab_size), dtype=np.float)
-        # for (i, word) in enumerate(raw_pinyin_list):
-        #    pinyin_list[i, char2id[word]] = 1.0
-        # for (i, word) in enumerate(raw_ch_list):
-        #    ch_list[i, ch_dict[word]] = 1.0
         train_list.append( (raw_pinyin_list, raw_ch_list) )
 
+# read in valid data
 valid_list = []
 for line in valid_data_f:
     line_sp = line.strip('\n').split('\t')
@@ -83,7 +79,7 @@ vocab_f.close()
 train_data_f.close()
 valid_data_f.close()
 
-batch_size=32
+batch_size=2
 
 class BatchGenerator(object):
     def __init__(self, data, batch_size):
@@ -111,9 +107,11 @@ class BatchGenerator(object):
             pin_list = np.zeros(shape=(padding_length, vocab_size), dtype=np.float)
             ch_list = np.zeros(shape=(padding_length, ch_vocab_size), dtype=np.float)
             for (i, word) in enumerate(batch[0]):
-                pin_list[i, char2id[word]] = 1.0
+                w = char2id[word] if word in char2id else char2id['_UNK']
+                pin_list[i, w] = 1.0
             for (i, word) in enumerate(batch[1]):
-                ch_list[i, ch_dict[word]] = 1.0
+                w = ch_dict[word] if word in ch_dict else ch_dict['_UNK']
+                ch_list[i, w] = 1.0
             batch_list.append( (pin_list, ch_list) )
         return list(zip(*batch_list))
 
@@ -167,7 +165,7 @@ class LSTM_cell(object):
 
         # Placeholder for input vector with shape[batch, seq, embeddings]
         self._inputs = tf.placeholder(tf.float32,
-                                      shape=[batch_size, padding_length, self.input_size],
+                                      shape=[None, padding_length, self.input_size],
                                       name='inputs')
 
         # Processing inputs to work with scan function
@@ -282,9 +280,9 @@ def process_batch_input_for_RNN(batch_input):
 
 # # Placeholder and initializers
 
-hidden_layer_size = 64
+hidden_layer_size = 32
 
-y = tf.placeholder(tf.float32, shape=[batch_size, padding_length, ch_vocab_size], name='inputs')
+y = tf.placeholder(tf.float32, shape=[None, padding_length, ch_vocab_size], name='inputs')
 
 # # Models
 
@@ -313,6 +311,11 @@ accuracy = (tf.reduce_mean(tf.cast(correct_prediction, tf.float32))) * 100
 # # Dataset Preparation
 train_batches = BatchGenerator(train_list, batch_size)
 valid_batches = BatchGenerator(valid_list, 1)
+
+for d in train_batches.next():
+    print(d)
+
+sys.exit(-1)
 
 sess = tf.InteractiveSession()
 sess.run(tf.global_variables_initializer())
