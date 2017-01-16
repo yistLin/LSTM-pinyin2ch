@@ -81,11 +81,11 @@ for line in train_data_f:
     line_sp = line.strip('\n').split('\t')
     raw_pinyin_list = line_sp[1].split()
     raw_ch_list = line_sp[0].split()
-    if min_padding_len <= len(raw_pinyin_list) <= max_padding_len:
+    if min_padding_len <= len(raw_pinyin_list)+2 <= max_padding_len:
         pinyin_padding_len = max_padding_len - len(raw_pinyin_list)
         raw_pinyin_list += ['_PAD'] * (max_padding_len - len(raw_pinyin_list))
         ch_padding_len = max_padding_len - len(raw_ch_list) - 2
-        raw_ch_list = ['_GO'] + ['_PAD'] * ch_padding_len + ['_EOS']
+        raw_ch_list = ['_GO'] + raw_ch_list + ['_EOS'] + ['_PAD'] * ch_padding_len
         train_list.append( (reversed(raw_pinyin_list), raw_ch_list) )
 
 # read in valid data
@@ -94,11 +94,11 @@ for line in valid_data_f:
     line_sp = line.strip('\n').split('\t')
     raw_pinyin_list = line_sp[1].split()
     raw_ch_list = line_sp[0].split()
-    if min_padding_len <= len(raw_pinyin_list) <= max_padding_len:
+    if min_padding_len <= len(raw_pinyin_list)+2 <= max_padding_len:
         pinyin_padding_len = max_padding_len - len(raw_pinyin_list)
         raw_pinyin_list += ['_PAD'] * (max_padding_len - len(raw_pinyin_list))
         ch_padding_len = max_padding_len - len(raw_ch_list) - 2
-        raw_ch_list = ['_GO'] + ['_PAD'] * ch_padding_len + ['_EOS']
+        raw_ch_list = ['_GO'] + raw_ch_list + ['_EOS'] + ['_PAD'] * ch_padding_len
         valid_list.append( (reversed(raw_pinyin_list), raw_ch_list) )
 
 print('\n[Data] train and valid data read')
