@@ -19,25 +19,28 @@ valid_data_f = open(valid_data_filename, 'r')
 vocab_f = open(vocab_filename, 'r')
 
 # all pinyin and 0-9
-char2id = {}
+py2id = {}
 cnt = 0
 for line in vocab_f:
     v = line.strip()
-    char2id[v] = cnt
+    py2id[v] = cnt
     cnt += 1
 
-vocab_size = len(char2id)
+vocab_size = len(py2id)
 ch_vocab_size = 20000
-min_length, padding_length = 3, 15
+min_length, padding_length = 3, 4
 
 # train data and valid data
 # line_sp[0] is chinese characters as label
 # line_sp[1] is pinyin characters as input
-ch_dict = {}
+ch2id = {}
+id2ch = {}
 ch_index = 2
 train_list = []
-ch_dict['_PAD'] = 0
-ch_dict['_UNK'] = 1
+ch2id['_PAD'] = 0
+ch2id['_UNK'] = 1
+id2ch[0] = '_PAD'
+id2ch[1] = '_UNK'
 
 # build chinese characters mapping
 for line in train_data_f:
@@ -46,11 +49,12 @@ for line in train_data_f:
     if min_length <= len(raw_pinyin_list) <= padding_length:
         raw_ch_list = line_sp[0].split()
         for ch in raw_ch_list:
-            if ch not in ch_dict:
-                ch_dict[ch] = ch_index
+            if ch not in ch2id:
+                ch2id[ch] = ch_index
+                id2ch[ch_index] = ch
                 ch_index += 1
 
-ch_vocab_size = len(ch_dict)
+ch_vocab_size = len(ch2id)
 train_data_f.seek(0)
 
 # read in train data
@@ -79,7 +83,7 @@ vocab_f.close()
 train_data_f.close()
 valid_data_f.close()
 
-batch_size=2
+batch_size = 32
 
 class BatchGenerator(object):
     def __init__(self, data, batch_size):
@@ -107,12 +111,12 @@ class BatchGenerator(object):
             pin_list = np.zeros(shape=(padding_length, vocab_size), dtype=np.float)
             ch_list = np.zeros(shape=(padding_length, ch_vocab_size), dtype=np.float)
             for (i, word) in enumerate(batch[0]):
-                w = char2id[word] if word in char2id else char2id['_UNK']
+                w = py2id[word] if word in py2id else py2id['_UNK']
                 pin_list[i, w] = 1.0
             for (i, word) in enumerate(batch[1]):
-                w = ch_dict[word] if word in ch_dict else ch_dict['_UNK']
+                w = ch2id[word] if word in ch2id else ch2id['_UNK']
                 ch_list[i, w] = 1.0
-            batch_list.append( (pin_list, ch_list) )
+            batch_list.append( [pin_list, ch_list] )
         return list(zip(*batch_list))
 
 class LSTM_cell(object):
@@ -309,13 +313,10 @@ correct_prediction = tf.equal(label, prediction)
 accuracy = (tf.reduce_mean(tf.cast(correct_prediction, tf.float32))) * 100
 
 # # Dataset Preparation
-train_batches = BatchGenerator(train_list, batch_size)
-valid_batches = BatchGenerator(valid_list, 1)
+# for d in train_batches.next():
+#     print(d)
 
-for d in train_batches.next():
-    print(d)
-
-sys.exit(-1)
+# sys.exit(-1)
 
 sess = tf.InteractiveSession()
 sess.run(tf.global_variables_initializer())
@@ -326,7 +327,7 @@ batch_cnt, batch_print = 0, 500
 for epoch in range(300):
 
     batch_cnt = total_loss = train_acc = test_acc = 0
-    # random.shuffle(batches)
+    train_batches = BatchGenerator(train_list, batch_size)
     for batch in train_batches.next():
         _, loss, _train_acc = sess.run([train_step, cross_entropy, accuracy], feed_dict={rnn._inputs: batch[0], y: batch[1]})
         total_loss += loss
@@ -335,16 +336,18 @@ for epoch in range(300):
         batch_cnt += 1
         if batch_cnt % batch_print == 0:
             batch_pack = []
+            valid_batch_size = 1
+            valid_batches = BatchGenerator(valid_list, valid_batch_size)
             for vb in valid_batches.next():
                 batch_pack.append( (vb[0][0], vb[1][0]) )
             batch_zip = list(zip(*batch_pack))
-            valid_acc = str(sess.run(accuracy, feed_dict={
-                rnn._inputs: batch_zip[0], y: batch_zip[1]}))
+            valid_acc = sess.run(accuracy, feed_dict={
+                rnn._inputs: batch_zip[0], y: batch_zip[1]})
 
-            valid_acc /= len(valid_batches.batch)
+            valid_acc /= valid_batch_size
 
             print("\nEpoch [%s] #batch: %s, loss: %s, train accuracy: %s%%, valid accuracy: %s%%" %
-                    (epoch, str(total_loss/(batch_print*batch_size)),
+                    (epoch, str(batch_cnt), str(total_loss/(batch_print*batch_size)),
                     str(train_acc/(batch_print*batch_size)), str(valid_acc))),
             sys.stdout.flush()
             total_loss = train_acc = test_acc = 0

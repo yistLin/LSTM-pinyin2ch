@@ -8293,7 +8293,6 @@
 甚 至 当 他 也 不 错	shen zhi dang ta ye bu cuo
 嘿	hei
 停 下 来	ting xia lai
-这 就 是 我 ～	zhe jiu shi wo
 停 下 来	ting xia lai
 拜 托	bai tuo
 停 下 来	ting xia lai
@@ -8673,7 +8672,6 @@
 网 子	wang zi
 飞 啊	fei a
 射 网	she wang
-$	
 网 子	wang zi
 他 带 着 啤 酒 回 来 了 吗	ta dai zhe pi jiu hui lai le ma
 什 么	shen me
@@ -14926,10 +14924,8 @@ $
 来   自	lai  zi
 检 查 坐 标	jian cha zuo biao
 纬 度	wei du
-4 6 °   4 2	4 6   4 2
 0	0
 经 度	jing du
-2 2 °   0	2 2   0
 0	0
 阿 西 达 里 亚 平 原	a xi da li ya ping yuan
 第 5 4 个 火 星 日	di 5 4 ge huo xing ri
@@ -15170,8 +15166,6 @@ $
 你 要 干 嘛	ni yao gan ma
 没 事 儿 没 事 儿	mei shi er mei shi er
 借 这 个 用 下	jie zhe ge yong xia
-北 纬 3 1 2 °	bei wei 3 1 2
-西 经 2 8 5 °	xi jing 2 8 5
 这 儿	zhe er
 我 知 道 他 要 去 哪 儿 了	wo zhi dao ta yao qu na er le
 我 要 去 赶 飞 机 了	wo yao qu gan fei ji le
@@ -15289,7 +15283,6 @@ $
 他 妈 的	ta ma de
 他 说	ta shuo
 他 们 仍 不 知 道 我 还 活 着	ta men reng bu zhi dao wo hai huo zhe
-这 什 么 混 蛋 话 	zhe shen me hun dan hua
 你 们 脑 里 有 屎 吗	ni men nao li you shi ma
 马 克	ma ke
 请 注 意 你 的 用 词	qing zhu yi ni de yong ci
@@ -15660,7 +15653,6 @@ $
 没 事 吧	mei shi ba
 报 告 飞 控	bao gao fei kong
 红 色 警 报	hong se jing bao
-箭 体 纵 轴 偏 旋 1 7 °	jian ti zong zhou pian xuan 1 7
 发 射 官	fa she guan
 怎 么 回 事	zen me hui shi
 报 告 飞 控	bao gao fei kong
@@ -20615,4 +20607,3 @@ $
 因 為 未 来 并 非 永 远 注 定 如 此	yin wei wei lai bing fei yong yuan zhu ding ru ci
 支 持 我 们	zhi chi wo men
 具 体	ju ti
-	
