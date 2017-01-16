@@ -129,7 +129,6 @@
 真 巧	zhen qiao
 我 说 你 啊   会 得 高 血 压 的   像 外 婆 那 样	wo shuo ni a  hui de gao xue ya de  xiang wai po na yang
 您 不 用 這 樣 勉 強 自 己	nin bu yong zhe yang mian qiang zi ji
-嗯	
 为 什 么 大 家 都 这 么 生 你 的 气	wei shen me da jia dou zhe me sheng ni de qi
 我 需 要 更 多 的 时 间	wo xu yao geng duo de shi jian
 你 想 怎 么 死 就 去 死 吧	ni xiang zen me si jiu qu si ba
@@ -380,7 +379,6 @@
 我 们 可 以 这 么 干	wo men ke yi zhe me gan
 不 用 了	bu yong le
 我 们 会 想 出 支 付 办 法 的	wo men hui xiang chu zhi fu ban fa de
-嗯   我 想 住 在 比 佛 利 山 庄   然 后 上 电 视	wo xiang zhu zai bi fu li shan zhuang  ran hou shang dian shi
 准 备 好 拍 掉 转 的 镜 头	zhun bei hao pai diao zhuan de jing tou
 这 有 特 别 款	zhe you te bie kuan
 因 此 我 已 經 做 了 那 些 事 了	yin ci wo yi jing zuo le na xie shi le
@@ -604,7 +602,6 @@
 但 我 相 信 她 绝 对 没 有 恶 意	dan wo xiang xin ta jue dui mei you e yi
 離 莫 斯 科 4 0 2 千 米	li mo si ke 4 0 2 qian mi
 中 球 啊	zhong qiu a
-嗯	
 他 们 的 在 这 儿	ta men de zai zhe er
 我 們 就 說 話	wo men jiu shuo hua
 今 天 早 上 很 冷	jin tian zao shang hen leng
@@ -703,7 +700,6 @@
 查 出 照 片 上 的 那 些 人 了	cha chu zhao pian shang de na xie ren le
 那 里 一 切	na li yi qie
 他 的 胳 膊 和 腿	ta de ge bo he tui
-嗯	
 我 绝 对 不 会 说	wo jue dui bu hui shuo
 你 想 让 我 怎 么 做 呢	ni xiang rang wo zen me zuo ne
 我 不 想 在 那 东 西 附 近 讲 话	wo bu xiang zai na dong xi fu jin jiang hua
@@ -1030,7 +1026,6 @@
 我 会 开 枪 的	wo hui kai qiang de
 我 就 要 他 好 看	wo jiu yao ta hao kan
 请 你 随 我 来	qing ni sui wo lai
-他 到 处 打 击 我 | 好 长 时 间	ta dao chu da ji wo  hao zhang shi jian
 你 不 会 失 去 我 们 二 个 的	ni bu hui shi qu wo men er ge de
 那 你 们 就 想 错 了	na ni men jiu xiang cuo le
 我 才 该 被 鞭 笞   被 捆 绑	wo cai gai bei bian chi  bei kun bang
@@ -1042,7 +1037,6 @@
 我 知 道   可 是	wo zhi dao  ke shi
 我 们 之 中 有 三 个 普 利 策 提 名 者	wo men zhi zhong you san ge pu li ce ti ming zhe
 光   光   光	guang  guang  guang
-嗯	
 我 并 没 有 这 样 做	wo bing mei you zhe yang zuo
 1 6	1 6
 你 知 道 的	ni zhi dao de
@@ -1138,7 +1132,6 @@
 太 让 我 吃 惊 了	tai rang wo chi jing le
 你 为 何 要 来 这 里	ni wei he yao lai zhe li
 就 好 像	jiu hao xiang
-嗯	
 法 兰 克	fa lan ke
 我 们 进 屋 吧	wo men jin wu ba
 不   我 看 到 了   好 的	bu  wo kan dao le  hao de
@@ -1364,7 +1357,6 @@
 在 弗 里 茨 街 2 号	zai fu li ci jie 2 hao
 其 他 对 我 来 说 不 重 要	qi ta dui wo lai shuo bu zhong yao
 你 就 等 着 瞧 吧	ni jiu deng zhe qiao ba
-| 他 们 是 一 群 怪 兽	ta men shi yi qun guai shou
 对 不 起	dui bu qi
 你 与 男 人	ni yu nan ren
 不 可 以	bu ke yi
@@ -1627,7 +1619,6 @@
 4 5 7 1 8	4 5 7 1 8
 不 管 怎 么 说 我 们 还 是 进 去 吧	bu guan zen me shuo wo men hai shi jin qu ba
 但 我 比 你 更 要 犯	dan wo bi ni geng yao fan
-| 你 会 认 为 那 是 真 爱	ni hui ren wei na shi zhen ai
 快 躲 开	kuai duo kai
 佩 德 华	pei de hua
 杀 掉 其 他 工 作 人 员	sha diao qi ta gong zuo ren yuan
@@ -2344,7 +2335,6 @@
 我 是 担 心 你 的 衣 服	wo shi dan xin ni de yi fu
 钱 还 真 他 妈 多	qian hai zhen ta ma duo
 结 合 为 一 体	jie he wei yi ti
-|	
 還 有 菲 力	hai you fei li
 他 们 相 信 罢 工	ta men xiang xin ba gong
 或 她 是 機 器 人	huo ta shi ji qi ren
@@ -2367,7 +2357,6 @@
 葛 温	ge wen
 你 在 干 嘛	ni zai gan ma
 库 兹 的	ku zi de
-嗯	
 我 只 是 觉 得 气 氛 不 对	wo zhi shi jue de qi fen bu dui
 是 我 们	shi wo men
 杭 柏 特	hang bai te
@@ -2678,7 +2667,6 @@
 孩 子	hai zi
 他 只 看 妳	ta zhi kan nai
 嗨	hai
-|	
 亲 吻 一 个 女 人	qin wen yi ge nv ren
 當 它 們 藥 力 消 退 時   會 起 點 作 用 的	dang ta men yao li xiao tui shi  hui qi dian zuo yong de
 不 看	bu kan
@@ -3063,7 +3051,6 @@
 感 激 你	gan ji ni
 老 兄	lao xiong
 不	bu
-嗯   他 突 然 一 下 子   就 决 定 不 干 了	ta tu ran yi xia zi  jiu jue ding bu gan le
 我 们 会 有 很 多 时 间 相 处	wo men hui you hen duo shi jian xiang chu
 我 们	wo men
 这 里 有 伤 患	zhe li you shang huan
@@ -3110,7 +3097,6 @@
 文 特 雷 斯	wen te lei si
 顺 便 说 一 下     医 院 还 在 招 聘 人 手 呢	shun bian shuo yi xia   yi yuan hai zai zhao pin ren shou ne
 没 剩 多 少 了	mei sheng duo shao le
-嗯	
 找 到 了   公 园 坡   第 二 大 街   8 6 0 2 号	zhao dao le  gong yuan po  di er da jie  8 6 0 2 hao
 什 么	shen me
 很 难 想 到 有 什 么 是 我 没 做 过 的	hen nan xiang dao you shen me shi wo mei zuo guo de
@@ -3360,7 +3346,6 @@
 5 5 岁 了	5 5 sui le
 他 要 和 其 他 人 比 赛	ta yao he qi ta ren bi sai
 那 是 我 妈 妈	na shi wo ma ma
-阿 嗯	a
 秨	zuo
 聽 到 我 說 話 嗎	ting dao wo shuo hua ma
 你 为 什 么 要 来 这     你 都 不 喜 欢 他	ni wei shen me yao lai zhe   ni dou bu xi huan ta
@@ -3448,7 +3433,6 @@
 好 吧	hao ba
 噢	o
 再 见	zai jian
-| 让 我 们 一 起 飞	rang wo men yi qi fei
 不 该	bu gai
 不	bu
 真 的	zhen de
@@ -3727,7 +3711,6 @@
 没 有	mei you
 如 果 你 跟 我 說 不 好 吃	ru guo ni gen wo shuo bu hao chi
 快 点	kuai dian
-嗯	
 不   不 可 以   我 一 直 用 錄 音 作 介 紹 的	bu  bu ke yi  wo yi zhi yong lu yin zuo jie shao de
 为 什 么 是 我	wei shen me shi wo
 0 2	0 2
@@ -3809,7 +3792,6 @@
 我 需 要 薪 水 或 者 类 似 薪 水 的 东 西	wo xu yao xin shui huo zhe lei shi xin shui de dong xi
 你 的 枕 头 都 还 有 你 的 味 道	ni de zhen tou dou hai you ni de wei dao
 她 太 唐 突 了	ta tai tang tu le
-嗯	
 小 心   大 卫   这 不 是 玩 具	xiao xin  da wei  zhe bu shi wan ju
 从 来 没 有 人 跟 我 说 过	cong lai mei you ren gen wo shuo guo
 我 的 心	wo de xin
@@ -3834,7 +3816,6 @@
 合 理 的 攻 击 型 超 能 力 上	he li de gong ji xing chao neng li shang
 为 什 么 你 们 不 拿 我 们   一 支 勃 朗 宁 自 动 手 枪 呢	wei shen me ni men bu na wo men  yi zhi bo lang ning zi dong shou qiang ne
 他 只 是 在 行 使 互 助 人 的 职 责	ta zhi shi zai xing shi hu zhu ren de zhi ze
-嗯	
 我 不 能 再 看 孩 子 了 吗	wo bu neng zai kan hai zi le ma
 只 是 为 了 我	zhi shi wei le wo
 4 0   距 目 标 5 分 钟 路 程	4 0  ju mu biao 5 fen zhong lu cheng
@@ -4123,7 +4104,6 @@
 我 们 到 了	wo men dao le
 还 有 泪 珠	hai you lei zhu
 什 么 是 真 相 什 么 是 真 相	shen me shi zhen xiang shen me shi zhen xiang
-|	
 我 刚 买 了 冰 淇 淋 呢	wo gang mai le bing qi lin ne
 保 罗	bao luo
 不	bu
@@ -4170,7 +4150,6 @@
 不 管 怎 样   要 是 他 来 不 了   我 得 提 前 两 天 知 道	bu guan zen yang  yao shi ta lai bu le  wo de ti qian liang tian zhi dao
 弗 兰 西 斯     约 会 无 能	fu lan xi si   yue hui wu neng
 刚 刚 真 的 是 你 们 弹 的	gang gang zhen de shi ni men dan de
-嗯	
 这 些	zhe xie
 試 看 看 啊	shi kan kan a
 光 束 跟 主 反 应 炉 有 七 个 接 点	guang shu gen zhu fan ying lu you qi ge jie dian
@@ -4284,12 +4263,10 @@
 我 想 问 问 你   马 丁	wo xiang wen wen ni  ma ding
 陛	bi
 因 为 他 们 否 决 了 我 那 组 2 0 年 代 故 事 的	yin wei ta men fou jue le wo na zu 2 0 nian dai gu shi de
-嗯	
 能 联 络 上 四 弟 詹 姆 斯 吗	neng lian luo shang si di zhan mu si ma
 夫 人 知 道 他 们 谈 得 怎 么 样 了	fu ren zhi dao ta men tan de zen me yang le
 不	bu
 这 很 有 趣	zhe hen you qu
-嗯   其 实 是 你 的 孙 子 找 到 了 我	qi shi shi ni de sun zi zhao dao le wo
 也 料 到 了	ye liao dao le
 我 爽 翻 了 也 累 死 了	wo shuang fan le ye lei si le
 大 汉 堡	da han bao
@@ -4341,7 +4318,6 @@
 我 就 知 道	wo jiu zhi dao
 你 抬 脚	ni tai jiao
 最 后	zui hou
-嗯	
 我 們 做 一 個 約 定 吧	wo men zuo yi ge yue ding ba
 我 们 又 回 来 了     我 们 又 回 来 了	wo men you hui lai le   wo men you hui lai le
 很 符 合 他 烂 人 的 品 质	hen fu he ta lan ren de pin zhi
@@ -4602,7 +4578,6 @@
 注 意	zhu yi
 聽 我 說   你 媽 媽	ting wo shuo  ni ma ma
 我 们 在 这 里	wo men zai zhe li
-嗯	
 起 来	qi lai
 我 有 强 烈 的 信 念   我 每 天 都 为 你 祷 告	wo you qiang lie de xin nian  wo mei tian dou wei ni dao gao
 这 边 走     放 松     慢 慢 走 出 去	zhe bian zou   fang song   man man zou chu qu
@@ -4646,11 +4621,9 @@
 最 重 要 的 是 口 輪 匝 肌	zui zhong yao de shi kou lun za ji
 外 婆	wai po
 没 出 什 么 事 吧	mei chu shen me shi ba
-|	
 拯 救 这 份 该 永 恒 而 非 自 毁 的 爱 情	zheng jiu zhe fen gai yong heng er fei zi hui de ai qing
 我 不 想 骗 你   有 好 几 次 我 都 想 要	wo bu xiang pian ni  you hao ji ci wo dou xiang yao
 的 確 很 好 看	de que hen hao kan
-嗯	
 小 伙 子 们	xiao huo zi men
 不 麻 烦	bu ma fan
 谢 谢 你	xie xie ni
@@ -4830,7 +4803,6 @@
 你 选 择 什 么	ni xuan ze shen me
 我 们 代 表 全 世 界 人 民	wo men dai biao quan shi jie ren min
 哦	o
-嗯	
 那 东 西 真 没 用	na dong xi zhen mei yong
 懂 你 意 思 了	dong ni yi si le
 快   快	kuai  kuai
