@@ -28,7 +28,7 @@ for line in vocab_f:
 
 vocab_size = len(py2id)
 ch_vocab_size = 20000
-min_length, padding_length = 3, 4
+min_length, padding_length = 3, 15
 
 # train data and valid data
 # line_sp[0] is chinese characters as label
@@ -57,6 +57,8 @@ for line in train_data_f:
 ch_vocab_size = len(ch2id)
 train_data_f.seek(0)
 
+print('dictionary: py2id, ch2id and id2ch built')
+
 # read in train data
 for line in train_data_f:
     line_sp = line.strip('\n').split('\t')
@@ -77,6 +79,8 @@ for line in valid_data_f:
         raw_pinyin_list += ['_PAD'] * (padding_length - len(raw_pinyin_list))
         raw_ch_list += ['_PAD'] * (padding_length - len(raw_ch_list))
         valid_list.append( (raw_pinyin_list, raw_ch_list) )
+
+print('[Data] train and valid data read')
 
 # close training file
 vocab_f.close()
@@ -271,6 +275,7 @@ class LSTM_cell(object):
 
         return all_outputs
 
+print('[Model] Batch Generator and LSTM defined')
 
 # Function to convert batch input data to use scan ops of tensorflow.
 def process_batch_input_for_RNN(batch_input):
@@ -318,15 +323,24 @@ accuracy = (tf.reduce_mean(tf.cast(correct_prediction, tf.float32))) * 100
 
 # sys.exit(-1)
 
+print('[Train] create session')
+
 sess = tf.InteractiveSession()
 sess.run(tf.global_variables_initializer())
 
 # Iterations to do trainning
 total_loss, train_acc, test_acc = 0, 0, 0
 batch_cnt, batch_print = 0, 500
-for epoch in range(300):
+max_epoch = 300
 
-    batch_cnt = total_loss = train_acc = test_acc = 0
+print('[Train] start to train')
+print('[Train] epoch at most %d' % max_epoch)
+
+for epoch in range(max_epoch):
+
+    print('[Train] epoch %d' % epoch)
+
+    total_loss = train_acc = test_acc = 0
     train_batches = BatchGenerator(train_list, batch_size)
     for batch in train_batches.next():
         _, loss, _train_acc = sess.run([train_step, cross_entropy, accuracy], feed_dict={rnn._inputs: batch[0], y: batch[1]})
