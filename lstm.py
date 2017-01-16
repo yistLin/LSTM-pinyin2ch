@@ -4,6 +4,10 @@ import numpy as np
 import sys
 import random
 
+if len(sys.argv) != 5:
+  print("Usage: ./lstm.py [source vocabularies list] [train data] [valid data] [test data]")
+  sys.exit(-1)
+
 print('\n********** Program Start **********')
 
 # get train data and valid data filename
