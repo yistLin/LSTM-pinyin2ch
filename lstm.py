@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import tensorflow as tf
 import numpy as np
 import sys
@@ -29,12 +30,7 @@ for line in vocab_f:
     cnt += 1
 
 vocab_size = len(py2id)
-ch_vocab_size = 20000
-min_length, padding_length = 3, 15
 
-# train data and valid data
-# line_sp[0] is chinese characters as label
-# line_sp[1] is pinyin characters as input
 ch2id = {}
 id2ch = {}
 ch_index = 2
@@ -44,11 +40,13 @@ ch2id['_UNK'] = 1
 id2ch[0] = '_PAD'
 id2ch[1] = '_UNK'
 
+min_padding_len, max_padding_len = 3, 15
+
 # build chinese characters mapping
 for line in train_data_f:
     line_sp = line.strip('\n').split('\t')
     raw_pinyin_list = line_sp[1].split()
-    if min_length <= len(raw_pinyin_list) <= padding_length:
+    if min_padding_len <= len(raw_pinyin_list) <= max_padding_len:
         raw_ch_list = line_sp[0].split()
         for ch in raw_ch_list:
             if ch not in ch2id:
@@ -61,14 +59,18 @@ train_data_f.seek(0)
 
 print('\n[Dict] py2id, ch2id and id2ch built')
 
+# train data and valid data
+# line_sp[0] is chinese characters as label
+# line_sp[1] is pinyin characters as input
+
 # read in train data
 for line in train_data_f:
     line_sp = line.strip('\n').split('\t')
     raw_pinyin_list = line_sp[1].split()
     raw_ch_list = line_sp[0].split()
-    if min_length <= len(raw_pinyin_list) <= padding_length:
-        raw_pinyin_list += ['_PAD'] * (padding_length - len(raw_pinyin_list))
-        raw_ch_list += ['_PAD'] * (padding_length - len(raw_ch_list))
+    if min_padding_len <= len(raw_pinyin_list) <= max_padding_len:
+        raw_pinyin_list += ['_PAD'] * (max_padding_len - len(raw_pinyin_list))
+        raw_ch_list += ['_PAD'] * (max_padding_len - len(raw_ch_list))
         train_list.append( (raw_pinyin_list, raw_ch_list) )
 
 # read in valid data
@@ -77,9 +79,9 @@ for line in valid_data_f:
     line_sp = line.strip('\n').split('\t')
     raw_pinyin_list = line_sp[1].split()
     raw_ch_list = line_sp[0].split()
-    if min_length <= len(raw_pinyin_list) <= padding_length:
-        raw_pinyin_list += ['_PAD'] * (padding_length - len(raw_pinyin_list))
-        raw_ch_list += ['_PAD'] * (padding_length - len(raw_ch_list))
+    if min_padding_len <= len(raw_pinyin_list) <= max_padding_len:
+        raw_pinyin_list += ['_PAD'] * (max_padding_len - len(raw_pinyin_list))
+        raw_ch_list += ['_PAD'] * (max_padding_len - len(raw_ch_list))
         valid_list.append( (raw_pinyin_list, raw_ch_list) )
 
 print('\n[Data] train and valid data read')
@@ -98,12 +100,9 @@ class BatchGenerator(object):
         self.start = 0
         self.end = 0
         self._length = len(data)
-        # self.batch = []
-        # self.prepare_batch()
 
     def next(self):
         while True:
-            # print(self.start, self.end, self._length)
             if self.end + self._batch_size > self._length:
                 break
             self.end += self._batch_size
@@ -114,8 +113,8 @@ class BatchGenerator(object):
     def __get_one_hot(self):
         batch_list = []
         for batch in self._data[self.start:self.end]:
-            pin_list = np.zeros(shape=(padding_length, vocab_size), dtype=np.float)
-            ch_list = np.zeros(shape=(padding_length, ch_vocab_size), dtype=np.float)
+            pin_list = np.zeros(shape=(max_padding_len, vocab_size), dtype=np.float)
+            ch_list = np.zeros(shape=(max_padding_len, ch_vocab_size), dtype=np.float)
             for (i, word) in enumerate(batch[0]):
                 w = py2id[word] if word in py2id else py2id['_UNK']
                 pin_list[i, w] = 1.0
@@ -126,15 +125,12 @@ class BatchGenerator(object):
         return list(zip(*batch_list))
 
 class LSTM_cell(object):
-
     """
     LSTM cell object which takes 3 arguments for initialization.
     input_size = Input Vector size
     hidden_layer_size = Hidden layer size
     target_size = Output vector size
-
     """
-
     def __init__(self, input_size, hidden_layer_size, target_size):
 
         # Initialization of given values
@@ -175,7 +171,7 @@ class LSTM_cell(object):
 
         # Placeholder for input vector with shape[batch, seq, embeddings]
         self._inputs = tf.placeholder(tf.float32,
-                                      shape=[None, padding_length, self.input_size],
+                                      shape=[None, max_padding_len, self.input_size],
                                       name='inputs')
 
         # Processing inputs to work with scan function
@@ -199,15 +195,14 @@ class LSTM_cell(object):
 
         self.initial_hidden = tf.pack(
             [self.initial_hidden, self.initial_hidden])
-    # Function for LSTM cell.
 
+    # Function for LSTM cell.
     def Lstm(self, previous_hidden_memory_tuple, x):
         """
         This function takes previous hidden state and memory
          tuple with input and
         outputs current hidden state.
         """
-
         previous_hidden_state, c_prev = tf.unpack(previous_hidden_memory_tuple)
 
         # Input Gate
@@ -239,7 +234,6 @@ class LSTM_cell(object):
 
         # Current Hidden state
         current_hidden_state = o * tf.nn.tanh(c)
-
         return tf.pack([current_hidden_state, c])
 
     # Function for getting all hidden state.
@@ -247,14 +241,12 @@ class LSTM_cell(object):
         """
         Iterates through time/ sequence to get all hidden state
         """
-
         # Getting all hidden state throuh time
         all_hidden_states = tf.scan(self.Lstm,
                                     self.processed_input,
                                     initializer=self.initial_hidden,
                                     name='states')
         all_hidden_states = all_hidden_states[:, 0, :, :]
-
         return all_hidden_states
 
     # Function to get output from a hidden layer
@@ -263,7 +255,6 @@ class LSTM_cell(object):
         This function takes hidden state and returns output
         """
         output = tf.nn.relu(tf.matmul(hidden_state, self.Wo) + self.bo)
-
         return output
 
     # Function for getting all output layers
@@ -272,9 +263,7 @@ class LSTM_cell(object):
         Iterating through hidden states to get outputs for all timestamp
         """
         all_hidden_states = self.get_states()
-
         all_outputs = tf.map_fn(self.get_output, all_hidden_states)
-
         return all_outputs
 
 print('\n[Model] Batch Generator and LSTM defined')
@@ -286,14 +275,13 @@ def process_batch_input_for_RNN(batch_input):
     """
     batch_input_ = tf.transpose(batch_input, perm=[2, 0, 1])
     X = tf.transpose(batch_input_)
-
     return X
 
 # # Placeholder and initializers
 
 hidden_layer_size = 32
 
-y = tf.placeholder(tf.float32, shape=[None, padding_length, ch_vocab_size], name='inputs')
+y = tf.placeholder(tf.float32, shape=[None, max_padding_len, ch_vocab_size], name='inputs')
 
 # # Models
 
@@ -302,7 +290,6 @@ rnn = LSTM_cell(vocab_size, hidden_layer_size, ch_vocab_size)
 
 # Getting all outputs from rnn
 outputs = tf.transpose(rnn.get_outputs(), perm=[1, 0, 2])
-print('outputs:', outputs.get_shape())
 
 # As rnn model output the final layer through Relu activation softmax is
 # used for final output.
@@ -310,28 +297,24 @@ output = tf.nn.softmax(outputs, dim=-1)
 prediction = tf.argmax(output, axis=2)
 label = tf.argmax(y, axis=2)
 
-print('output:', output.get_shape())
-print('prediection:', prediction.get_shape())
-print('label:', label.get_shape())
-
 # Computing the Cross Entropy loss
 cross_entropy = -tf.reduce_sum(y * tf.log(output))
-print('cross_entropy:', cross_entropy.get_shape())
 
 # Trainning with Adadelta Optimizer
 train_step = tf.train.AdamOptimizer().minimize(cross_entropy)
 
-# Calculatio of correct prediction and accuracy
+# Calculate ratio of correct prediction and accuracy
 correct_prediction = tf.equal(label, prediction)
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32)) * 100
+
+# Print out shape for checking
+print('outputs:', outputs.get_shape())
+print('output:', output.get_shape())
+print('prediection:', prediction.get_shape())
+print('label:', label.get_shape())
+print('cross_entropy:', cross_entropy.get_shape())
 print('correct_prediction:', correct_prediction.get_shape())
 print('accuracy:', accuracy.get_shape())
-
-# # Dataset Preparation
-# for d in train_batches.next():
-#     print(d)
-
-# sys.exit(-1)
 
 print('\n[Train] create session')
 
