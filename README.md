@@ -11,7 +11,7 @@
 <http://stackoverflow.com/questions/27435855/how-does-one-print-a-unicode-character-code-in-python>  
 <https://zhidao.baidu.com/question/480799001.html>  
 
-<https://github.com/overtrue/laravel-pinyin>  
+<https://github.com/overtrue/pinyin>
 
 <http://stats.stackexchange.com/questions/236987/the-simplest-seq2seq-model-for-word-mirroring>  
 <https://github.com/ishalyminov/tensorflow/blob/master/tensorflow/examples/udacity/6_3_lstm_seq2seq.ipynb>  
