@@ -26,9 +26,9 @@ except Exception:
 decode_mode = True if '--decode' in sys.argv else False
 
 # open training file
-train_data_f = open(train_data_filename, 'r')
-valid_data_f = open(valid_data_filename, 'r')
-vocab_f = open(vocab_filename, 'r')
+train_data_f = open(train_data_filename, 'r', encoding='utf-8')
+valid_data_f = open(valid_data_filename, 'r', encoding='utf-8')
+vocab_f = open(vocab_filename, 'r', encoding='utf-8')
 
 # all pinyin and 0-9
 py2id = {}
@@ -43,13 +43,12 @@ vocab_size = len(py2id)
 ch2id = {}
 id2ch = {}
 ch_index = 2
-train_list = []
 ch2id['_PAD'] = 0
 ch2id['_UNK'] = 1
 id2ch[0] = '_PAD'
 id2ch[1] = '_UNK'
 
-min_padding_len, max_padding_len = 3, 15
+min_padding_len, max_padding_len = 1, 20
 
 # build chinese characters mapping
 for line in train_data_f:
@@ -73,6 +72,7 @@ print('\n[Dict] py2id, ch2id and id2ch built')
 # line_sp[1] is pinyin characters as input
 
 # read in train data
+train_list = []
 for line in train_data_f:
     line_sp = line.strip('\n').split('\t')
     raw_pinyin_list = line_sp[1].split()
@@ -80,7 +80,7 @@ for line in train_data_f:
     if min_padding_len <= len(raw_pinyin_list) <= max_padding_len:
         raw_pinyin_list += ['_PAD'] * (max_padding_len - len(raw_pinyin_list))
         raw_ch_list += ['_PAD'] * (max_padding_len - len(raw_ch_list))
-        train_list.append( (raw_pinyin_list, raw_ch_list) )
+        train_list.append( (reversed(raw_pinyin_list), raw_ch_list) )
 
 # read in valid data
 valid_list = []
@@ -91,7 +91,7 @@ for line in valid_data_f:
     if min_padding_len <= len(raw_pinyin_list) <= max_padding_len:
         raw_pinyin_list += ['_PAD'] * (max_padding_len - len(raw_pinyin_list))
         raw_ch_list += ['_PAD'] * (max_padding_len - len(raw_ch_list))
-        valid_list.append( (raw_pinyin_list, raw_ch_list) )
+        valid_list.append( (reversed(raw_pinyin_list), raw_ch_list) )
 
 print('\n[Data] train and valid data read')
 
@@ -348,6 +348,7 @@ if decode_mode:
                 break
             our_sentence = sentence.strip().split()
             our_sentence += ['_PAD'] * (max_padding_len - len(our_sentence))
+            our_sentence = reversed(our_sentence)
             our_list = np.zeros(shape=(max_padding_len, vocab_size), dtype=np.float)
             for (i, word) in enumerate(our_sentence):
                 w = py2id[word] if word in py2id else py2id['_UNK']
