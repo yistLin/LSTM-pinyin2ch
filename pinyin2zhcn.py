@@ -42,13 +42,17 @@ vocab_size = len(py2id)
 
 ch2id = {}
 id2ch = {}
-ch_index = 2
+ch_index = 4
 ch2id['_PAD'] = 0
-ch2id['_UNK'] = 1
+ch2id['_GO'] = 1
+ch2id['_EOS'] = 2
+ch2id['_UNK'] = 3
 id2ch[0] = '_PAD'
-id2ch[1] = '_UNK'
+id2ch[1] = '_GO'
+id2ch[2] = '_EOS'
+id2ch[3] = '_UNK'
 
-min_padding_len, max_padding_len = 1, 20
+min_padding_len, max_padding_len = 3, 15
 
 # build chinese characters mapping
 for line in train_data_f:
@@ -78,8 +82,10 @@ for line in train_data_f:
     raw_pinyin_list = line_sp[1].split()
     raw_ch_list = line_sp[0].split()
     if min_padding_len <= len(raw_pinyin_list) <= max_padding_len:
+        pinyin_padding_len = max_padding_len - len(raw_pinyin_list)
         raw_pinyin_list += ['_PAD'] * (max_padding_len - len(raw_pinyin_list))
-        raw_ch_list += ['_PAD'] * (max_padding_len - len(raw_ch_list))
+        ch_padding_len = max_padding_len - len(raw_ch_list) - 2
+        raw_ch_list = ['_GO'] + ['_PAD'] * ch_padding_len + ['_EOS']
         train_list.append( (reversed(raw_pinyin_list), raw_ch_list) )
 
 # read in valid data
@@ -89,8 +95,10 @@ for line in valid_data_f:
     raw_pinyin_list = line_sp[1].split()
     raw_ch_list = line_sp[0].split()
     if min_padding_len <= len(raw_pinyin_list) <= max_padding_len:
+        pinyin_padding_len = max_padding_len - len(raw_pinyin_list)
         raw_pinyin_list += ['_PAD'] * (max_padding_len - len(raw_pinyin_list))
-        raw_ch_list += ['_PAD'] * (max_padding_len - len(raw_ch_list))
+        ch_padding_len = max_padding_len - len(raw_ch_list) - 2
+        raw_ch_list = ['_GO'] + ['_PAD'] * ch_padding_len + ['_EOS']
         valid_list.append( (reversed(raw_pinyin_list), raw_ch_list) )
 
 print('\n[Data] train and valid data read')
@@ -406,7 +414,7 @@ for epoch in range(max_epoch):
             batch_cnt = total_loss = train_acc = test_acc = 0
 
     # save the model
-    if epoch % 5 == 0 and epoch != 0:
+    if epoch % 1 == 0 and epoch != 0:
         save_path = saver.save(sess, model_save_path, global_step=epoch)
         print('\n[Train] save model to path: %s' % save_path)
 
