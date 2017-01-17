@@ -66,8 +66,16 @@ def train(arg):
     # for batch in train_batches.next():
     #     print(batch)
 
-    seq2seqModel = Model(arg.rnn_size, arg.seq_len, arg.batch_size)
+    # seq2seqModel = Model(arg.rnn_size, arg.seq_len, arg.batch_size)
+    seq2seqModel = Model(arg.rnn_size, arg.batch_size, arg.seq_len)
     seq2seqModel.build_graph()
+
+    with tf.Session() as sess:
+        tf.global_variables_initializer().run()
+        for epoch in range(100):
+            sess.run(train_step, feed_dict={X:,Y:})
+            result = sess.run(tf.argmax(logits, 1))
+            print(result)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Train seq2seq model.')
