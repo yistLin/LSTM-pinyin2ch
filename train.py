@@ -51,28 +51,28 @@ def preprocess(filename):
     source_list, target_list = [], []
     with open(filename, 'r') as f:
         for line in f:
-            line = line.strip().split('\t')
+            line = line.strip('\n').split('\t')
             source, target = line[0].strip(), line[1].strip()
             source_list += source.split()
             target_list += target.split()
-    
+
     source_map = Map(source_list)
     target_map = Map(target_list)
     return source_map, target_map
-    
+
 def train(arg):
     source_map, target_map = preprocess(arg.train_data)
     train_batches = BatchGenerator(arg.train_data, arg.batch_size, arg.seq_len, source_map, target_map)
-    #for batch in train_batches.next():
-    #    print(batch)
-    
+    # for batch in train_batches.next():
+    #     print(batch)
+
     seq2seqModel = Model(arg.rnn_size, arg.seq_len, arg.batch_size)
     seq2seqModel.build_graph()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Train seq2seq model.')
-    parser.add_argument('-train_data', action='store', dest='train_data', required=True)
-    parser.add_argument('-batch_size', action='store', dest='batch_size', type=int, required=True)
-    parser.add_argument('-rnn_size', action='store', dest='rnn_size', type=int, required= True)
-    parser.add_argument('-seq_len', action='store', dest='seq_len', type=int, required=True)
+    parser.add_argument('--train_data', action='store', dest='train_data', required=True)
+    parser.add_argument('--batch_size', action='store', dest='batch_size', type=int, required=True)
+    parser.add_argument('--rnn_size', action='store', dest='rnn_size', type=int, required=True)
+    parser.add_argument('--seq_len', action='store', dest='seq_len', type=int, required=True)
     train(parser.parse_args())
