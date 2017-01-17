@@ -1,6 +1,5 @@
 # DSP Final Project
 
-
 ##References
 <http://selenium-python.readthedocs.io>  
 <https://pypi.python.org/pypi/subhd.py/0.1.4>  
@@ -19,3 +18,5 @@
 <https://arxiv.org/pdf/1402.1128v1.pdf>  
 
 <https://github.com/KnHuq/Dynamic-Tensorflow-Tutorial/blob/master/LSTM/LSTM.py>  
+
+Introductory Presentation on RNN, LSTM and Seq-2-Seq Models --- SlideShare <http:www.slideshare.net/emorynlp/rnn-lstm-and-seq2seq-models>
