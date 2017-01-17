@@ -53,15 +53,15 @@ def preprocess(filename):
     source_list, target_list = [], []
     with open(filename, 'r') as f:
         for line in f:
-            line = line.strip().split('\t')
+            line = line.strip('\n').split('\t')
             source, target = line[0].strip(), line[1].strip()
             source_list += source.split()
             target_list += target.split()
-    
+
     source_map = Map(source_list)
     target_map = Map(target_list)
     return source_map, target_map
-    
+
 def train(arg):
     train_data = arg.train_data
     rnn_size = arg.rnn_size
@@ -73,6 +73,7 @@ def train(arg):
     
     seq2seqModel = Model(rnn_size, seq_len, batch_size, source_map.size, target_map.size)
     seq2seqModel.build_graph()
+
     with tf.Session(graph=seq2seqModel.graph) as sess:
         sess.run(seq2seqModel.init_op)
         for epoch in range(arg.num_epoch):
