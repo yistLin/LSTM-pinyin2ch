@@ -1,6 +1,7 @@
 import sys
 import argparse
 from model import *
+from basicrnn import *
 from collections import Counter
 
 class BatchGenerator():
@@ -15,19 +16,21 @@ class BatchGenerator():
         source_PADID = self.__source_map.PADID
         target_PADID = self.__target_map.PADID
         with open(self.filename, 'r') as f:
-            batch = []
+            batch_source = []
+            batch_target = []
             for (i, line) in enumerate(f):
                 line = line.strip().split('\t')
-                source, target = line[0].strip().split(), line[1].strip().split()
+                source, target = line[1].strip().split(), line[0].strip().split()
                 source_pad_len = self.seq_len - len(source)
                 target_pad_len = self.seq_len - len(target)
-                batch.append((
-                                list(map(lambda x: self.__source_map.word2id[x], source)) + [source_PADID] * source_pad_len, 
-                                list(map(lambda x: self.__target_map.word2id[x], target)) + [target_PADID] * target_pad_len
-                            ))
-                if len(batch) == self.batch_size:
-                    yield list(zip(*batch))
-                    batch.clear()
+                source_id_list = list(map(lambda x: self.__source_map.word2id[x], source))
+                target_id_list = list(map(lambda x: self.__target_map.word2id[x], target))
+                batch_source.append(source_id_list + [source_PADID] * source_pad_len)
+                batch_target.append(target_id_list + [target_PADID] * target_pad_len)
+                if len(batch_source) == self.batch_size:
+                    yield (list(zip(*batch_source)), list(zip(*batch_target)))
+                    batch_source.clear()
+                    batch_target.clear()
 
 class Map():
     def __init__(self, words):
@@ -52,7 +55,7 @@ def preprocess(filename):
     with open(filename, 'r') as f:
         for line in f:
             line = line.strip('\n').split('\t')
-            source, target = line[0].strip(), line[1].strip()
+            source, target = line[1].strip(), line[0].strip()
             source_list += source.split()
             target_list += target.split()
 
@@ -62,20 +65,31 @@ def preprocess(filename):
 
 def train(arg):
     source_map, target_map = preprocess(arg.train_data)
-    train_batches = BatchGenerator(arg.train_data, arg.batch_size, arg.seq_len, source_map, target_map)
     # for batch in train_batches.next():
     #     print(batch)
 
-    # seq2seqModel = Model(arg.rnn_size, arg.seq_len, arg.batch_size)
-    seq2seqModel = Model(arg.rnn_size, arg.batch_size, arg.seq_len)
-    seq2seqModel.build_graph()
+    model = BasicRNN(source_map.size, arg.batch_size, arg.seq_len)
+    model.build_graph()
 
     with tf.Session() as sess:
-        tf.global_variables_initializer().run()
+        sess.run(tf.global_variables_initializer())
         for epoch in range(100):
-            sess.run(train_step, feed_dict={X:,Y:})
-            result = sess.run(tf.argmax(logits, 1))
-            print(result)
+            train_batches = BatchGenerator(arg.train_data, arg.batch_size, arg.seq_len, source_map, target_map)
+            for batch in train_batches.next():
+                feed_dict = {}
+                for i in range(model.seq_len):
+                    feed_dict[model.X[i]] = batch[0][i]
+                    feed_dict[model.Y[i]] = batch[1][i]
+                _step, _loss, _out = sess.run([model.train_step, model.cross_entropy, model.output], feed_dict=feed_dict)
+                
+                answer_list = list(zip(*batch[1]))
+                print('answer_list =', answer_list)
+                for i in range(model.batch_size):
+                    output = list(map(lambda x: target_map.id2word[x], _out[i][0]))
+                    answer = list(map(lambda x: target_map.id2word[x], answer_list[i]))
+                    print('output[i] =', output)
+                    print('answer[i] =', answer)
+                    # sys.exit(1)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Train seq2seq model.')
