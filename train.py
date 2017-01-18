@@ -43,7 +43,7 @@ class BatchGenerator():
 
                 if len(batch_encode) == self.batch_size:
                     yield   {
-                                'encode': list(zip(*batch_encode)),
+                                'encode': list(reversed(list(zip(*batch_encode)))),
                                 'decode': list(zip(*batch_decode)),
                                 'target': list(zip(*batch_target))
                             }
