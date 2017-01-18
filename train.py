@@ -14,7 +14,9 @@ class BatchGenerator():
 
     def next(self):
         source_PADID = self.__source_map.PADID
+        source_UNKID = self.__source_map.UNKID
         target_PADID = self.__target_map.PADID
+        target_UNKID = self.__target_map.UNKID
         target_GOID  = self.__target_map.GOID
         target_EOSID = self.__target_map.EOSID
         with open(self.filename, 'r') as f:
@@ -32,8 +34,8 @@ class BatchGenerator():
                 if source_pad_len < 0 or target_pad_len < 0:
                     continue
 
-                source_id_list = list(map(lambda x: self.__source_map.word2id[x], source))
-                target_id_list = list(map(lambda x: self.__target_map.word2id[x], target))
+                source_id_list = list(map(lambda x: self.__source_map.word2id.get(x, source_UNKID), source))
+                target_id_list = list(map(lambda x: self.__target_map.word2id.get(x, target_UNKID), target))
 
                 batch_encode.append(source_id_list + [source_PADID] * source_pad_len)
                 batch_decode.append([target_GOID]  + target_id_list + [target_PADID] * target_pad_len)
@@ -83,7 +85,8 @@ def preprocess(filename):
     return source_map, target_map
 
 def train(arg):
-    train_data = arg.train_data
+    train_data = arg.train_data 
+    valid_data = arg.valid_data
     rnn_size = arg.rnn_size
     seq_len = arg.seq_len
     batch_size = arg.batch_size
@@ -97,13 +100,18 @@ def train(arg):
     seq2seqModel = Model(rnn_size, seq_len, batch_size, source_map.size, target_map.size)
     seq2seqModel.build_graph()
 
-
     loss = step_cnt = 0
+
+    print('[Training]')
+    print('\ttrain data: {}'.format(train_data))
+    if valid_data is not None:
+        print('\tvalid data: {}'.format(valid_data))
+
     with tf.Session(graph=seq2seqModel.graph) as sess:	
         # Create saver for model
         saver = tf.train.Saver()
         model_save_path = save_path + '/model.ckpt'
-        print(model_save_path)
+        print('[Model]: model save at {}'.format(model_save_path))
 
         sess.run(seq2seqModel.init_op)
         for epoch in range(arg.num_epoch):
@@ -111,27 +119,46 @@ def train(arg):
                     seq_len, source_map, target_map)
             feed_dict = {}
             for batch in train_batches.next():
-                    for i in range(seq_len):
-                        feed_dict[seq2seqModel.encode_inputs[i]] = batch['encode'][i]
-                        feed_dict[seq2seqModel.decode_inputs[i]] = batch['decode'][i]
-                        feed_dict[seq2seqModel.targets[i]]       = batch['target'][i]
+                for i in range(seq_len):
+                    feed_dict[seq2seqModel.encode_inputs[i]] = batch['encode'][i]
+                    feed_dict[seq2seqModel.decode_inputs[i]] = batch['decode'][i]
+                    feed_dict[seq2seqModel.targets[i]]       = batch['target'][i]
 
-                    _, _loss = sess.run([seq2seqModel.optimizer, seq2seqModel.loss], feed_dict=feed_dict)
-                    loss += _loss
-                    step_cnt += 1
-                    if step_cnt % step_print == 0:
-                        print('[Epoch {}], #batch {}, average loss: {:.6f}'.format(epoch, step_cnt, loss / step_print))
-                        outputs = sess.run([seq2seqModel.outputs], feed_dict=feed_dict)
-                        answer, predict = [], []
-                        rand = np.random.randint(batch_size, size=1, dtype=int)
-                        for (i, words) in enumerate(outputs[0]):
-                            answer.append(target_map.id2word[batch['target'][i][rand]])
-                            predict.append(target_map.id2word[np.argmax(words, axis=1)[rand]])
-                        print('\tRandom sentence in batch:')
-                        print('\t\tanswer : {}'.format(' '.join(answer)))
-                        print('\t\tpredict: {}'.format(' '.join(predict)))
-                        print('')
-                        loss = 0
+                _, _loss = sess.run([seq2seqModel.optimizer, seq2seqModel.loss], feed_dict=feed_dict)
+                loss += _loss
+                step_cnt += 1
+                if step_cnt % step_print == 0:
+                    outputs = sess.run(seq2seqModel.outputs, feed_dict=feed_dict)
+                    answer, predict = [], []
+                    rand = np.random.randint(batch_size, size=1, dtype=int)
+                    for (i, words) in enumerate(outputs):
+                        answer.append(target_map.id2word[batch['target'][i][rand]])
+                        predict.append(target_map.id2word[np.argmax(words, axis=1)[rand]])
+
+                    print('[Epoch {}]: #batch {}, average loss: {:.6f}'.format(epoch, step_cnt, loss / step_print))
+                    print('\tRandom sentence in train batch:')
+                    print('\t\tanswer : {}'.format(' '.join(answer)))
+                    print('\t\tpredict: {}'.format(' '.join(predict)))
+                    print('')
+                    loss = 0
+
+                if (valid_data is not None) and (step_cnt % (step_print * 10) == 0):
+                    valid_batches = BatchGenerator(valid_data, batch_size,
+                            seq_len, source_map, target_map)
+                    v_loss = v_step = 0
+                    feed_dict = {}
+                    for v_batch in valid_batches.next():
+                        for i in range(seq_len):
+                            feed_dict[seq2seqModel.encode_inputs[i]] = v_batch['encode'][i]
+                            feed_dict[seq2seqModel.decode_inputs[i]] = v_batch['decode'][i]
+                            feed_dict[seq2seqModel.targets[i]]       = v_batch['target'][i]
+
+                        _loss = sess.run(seq2seqModel.loss, feed_dict=feed_dict)
+                        v_loss += _loss
+                        v_step += 1
+                    
+                    print('[Valid data]: average loss: {:.6f}'.format(v_loss / v_step))
+                    print('')
         
             # save the model
             if epoch % save_num_epoch == 0:
@@ -141,6 +168,7 @@ def train(arg):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Train seq2seq model.')
     parser.add_argument('--train_data', action='store', dest='train_data', required=True)
+    parser.add_argument('--valid_data', action='store', dest='valid_data')
     parser.add_argument('--batch_size', action='store', dest='batch_size', type=int, required=True)
     parser.add_argument('--rnn_size', action='store', dest='rnn_size', type=int, required=True)
     parser.add_argument('--seq_len', action='store', dest='seq_len', type=int, required=True)
