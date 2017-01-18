@@ -10,20 +10,25 @@ class Model():
         self.__target_vocab_size = target_vocab_size
 
     def build_graph(self):
-        print('[Build graph]')
         rnn_size = self.__rnn_size
         seq_len = self.__seq_len
         batch_size = self.__batch_size
         source_vocab_size = self.__source_vocab_size
         target_vocab_size = self.__target_vocab_size
+
+        print('[Build graph]')
         print('\trnn size: {}'.format(rnn_size))
         print('\tseq len: {}'.format(seq_len))
         print('\tbatch_size: {}'.format(batch_size))
+        print('\tsource vocab size: {}'.format(source_vocab_size))
+        print('\ttarget vocab size: {}'.format(target_vocab_size))
+
         self.graph = tf.Graph()
         with self.graph.as_default():
             self.encode_inputs = [tf.placeholder(tf.int32, shape=(batch_size,)) for _ in range(seq_len)]
             self.decode_inputs = [tf.placeholder(tf.int32, shape=(batch_size,)) for _ in range(seq_len)]
             self.targets = [tf.placeholder(tf.int32, shape=(batch_size,)) for _ in range(seq_len)]
+
             #self.encode_inputs = tf.placeholder(tf.int32, shape=[batch_size, seq_len])
             #self.decode_inputs = tf.placeholder(tf.int32, shape=[batch_size, seq_len])
             #self.labels = tf.placeholder(tf.float32, shape=[batch_size, seq_len])
