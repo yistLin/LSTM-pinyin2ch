@@ -65,8 +65,6 @@ def preprocess(filename):
 
 def train(arg):
     source_map, target_map = preprocess(arg.train_data)
-    # for batch in train_batches.next():
-    #     print(batch)
 
     model = BasicRNN(source_map.size, arg.batch_size, arg.seq_len)
     model.build_graph()
@@ -80,16 +78,15 @@ def train(arg):
                 for i in range(model.seq_len):
                     feed_dict[model.X[i]] = batch[0][i]
                     feed_dict[model.Y[i]] = batch[1][i]
-                _step, _loss, _out = sess.run([model.train_step, model.cross_entropy, model.output], feed_dict=feed_dict)
+                _step, _loss, _out = sess.run([model.train_step, model.loss, model.output], feed_dict=feed_dict)
+                print('loss      =', _loss)
                 
                 answer_list = list(zip(*batch[1]))
-                print('answer_list =', answer_list)
                 for i in range(model.batch_size):
-                    output = list(map(lambda x: target_map.id2word[x], _out[i][0]))
+                    output = list(map(lambda x: target_map.id2word[x], _out[i]))
                     answer = list(map(lambda x: target_map.id2word[x], answer_list[i]))
                     print('output[i] =', output)
                     print('answer[i] =', answer)
-                    # sys.exit(1)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Train seq2seq model.')
