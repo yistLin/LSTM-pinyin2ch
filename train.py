@@ -11,7 +11,7 @@ class BatchGenerator():
         self.seq_len = seq_len
         self.__source_map = source_map
         self.__target_map = target_map
- 
+
     def next(self):
         source_PADID = self.__source_map.PADID
         target_PADID = self.__target_map.PADID
@@ -41,8 +41,8 @@ class BatchGenerator():
 
                 if len(batch_encode) == self.batch_size:
                     yield   {
-                                'encode': list(zip(*batch_encode)), 
-                                'decode': list(zip(*batch_decode)), 
+                                'encode': list(zip(*batch_encode)),
+                                'decode': list(zip(*batch_decode)),
                                 'target': list(zip(*batch_target))
                             }
                     batch_encode.clear()
@@ -87,20 +87,27 @@ def train(arg):
     rnn_size = arg.rnn_size
     seq_len = arg.seq_len
     batch_size = arg.batch_size
-    num_epoch = arg.num_epoch   
+    num_epoch = arg.num_epoch
     step_print = arg.step_print
+    save_num_epoch = arg.save_num_epoch
+    save_path = arg.save_path
 
     source_map, target_map = preprocess(train_data)
-    
+
     seq2seqModel = Model(rnn_size, seq_len, batch_size, source_map.size, target_map.size)
     seq2seqModel.build_graph()
 
-    
+
     loss = step_cnt = 0
-    with tf.Session(graph=seq2seqModel.graph) as sess:
+    with tf.Session(graph=seq2seqModel.graph) as sess:	
+        # Create saver for model
+        saver = tf.train.Saver()
+        model_save_path = save_path + '/model.ckpt'
+        print(model_save_path)
+
         sess.run(seq2seqModel.init_op)
         for epoch in range(arg.num_epoch):
-            train_batches = BatchGenerator(train_data, batch_size, 
+            train_batches = BatchGenerator(train_data, batch_size,
                     seq_len, source_map, target_map)
             feed_dict = {}
             for batch in train_batches.next():
@@ -125,13 +132,20 @@ def train(arg):
                         print('\t\tpredict: {}'.format(' '.join(predict)))
                         print('')
                         loss = 0
+        
+            # save the model
+            if epoch % save_num_epoch == 0:
+                path = saver.save(sess, model_save_path, global_step=epoch)
+                print('\n[Train] save model to path: {}'.format(path))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Train seq2seq model.')
-    parser.add_argument('-train_data', action='store', dest='train_data', required=True)
-    parser.add_argument('-batch_size', action='store', dest='batch_size', type=int, required=True)
-    parser.add_argument('-rnn_size', action='store', dest='rnn_size', type=int, required= True)
-    parser.add_argument('-seq_len', action='store', dest='seq_len', type=int, required=True)
-    parser.add_argument('-num_epoch', action='store', dest='num_epoch', type=int, required=True)
-    parser.add_argument('-step_print', action='store', dest='step_print', type=int, default=100)
+    parser.add_argument('--train_data', action='store', dest='train_data', required=True)
+    parser.add_argument('--batch_size', action='store', dest='batch_size', type=int, required=True)
+    parser.add_argument('--rnn_size', action='store', dest='rnn_size', type=int, required=True)
+    parser.add_argument('--seq_len', action='store', dest='seq_len', type=int, required=True)
+    parser.add_argument('--num_epoch', action='store', dest='num_epoch', type=int, required=True)
+    parser.add_argument('--step_print', action='store', dest='step_print', type=int, default=100)
+    parser.add_argument('--save_num_epoch', action='store', dest='save_num_epoch', type=int, default=1)
+    parser.add_argument('--save_path', action='store', dest='save_path', required=True)
     train(parser.parse_args())
