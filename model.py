@@ -25,7 +25,8 @@ class Model():
                 self.targets = [tf.placeholder(tf.int32, shape=(None,)) for _ in range(seq_len)]
                 self.feed_previous = tf.placeholder(tf.bool)
 
-            self.__rnn_cell = tf.nn.rnn_cell.BasicLSTMCell(rnn_size)
+            rnn_cell = tf.nn.rnn_cell.BasicLSTMCell(rnn_size)
+            self.__rnn_cell = tf.nn.rnn_cell.DropoutWrapper(rnn_cell, output_keep_prob=0.5)
 
             self.outputs, self.__state = tf.nn.seq2seq.embedding_rnn_seq2seq(
                     self.encode_inputs, 
