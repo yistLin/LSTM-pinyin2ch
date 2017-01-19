@@ -70,6 +70,10 @@ class Map():
         self.GOID  = self.word2id['_GO']
         self.EOSID = self.word2id['_EOS']
 
+    def save(self, filename):
+        print('[Save]: save map at {}'.format(filename))
+        np.save(filename, self.id2word)
+
 def preprocess(filename):
     print('[Preprocess]: file {}'.format(filename))
     source_list, target_list = [], []
@@ -94,10 +98,13 @@ def train(arg):
     step_print = arg.step_print
     save_num_epoch = arg.save_num_epoch
     save_path = arg.save_path
+    map_dir = arg.map_dir
 
     source_map, target_map = preprocess(train_data)
+    source_map.save('{}/source'.format(map_dir))
+    target_map.save('{}/target'.format(map_dir))
 
-    seq2seqModel = Model(rnn_size, seq_len, batch_size, source_map.size, target_map.size)
+    seq2seqModel = Model(rnn_size, seq_len, source_map.size, target_map.size)
     seq2seqModel.build_graph()
 
     loss = step_cnt = 0
@@ -110,6 +117,13 @@ def train(arg):
     with tf.Session(graph=seq2seqModel.graph) as sess:	
         # Create saver for model
         saver = tf.train.Saver()
+
+        tf.add_to_collection('feed_previous', seq2seqModel.feed_previous)
+        for i in range(seq_len):
+            tf.add_to_collection('encode_{}'.format(i), seq2seqModel.encode_inputs[i])
+            tf.add_to_collection('decode_{}'.format(i), seq2seqModel.decode_inputs[i])
+            tf.add_to_collection('output_{}'.format(i), seq2seqModel.outputs[i])
+            
         model_save_path = save_path + '/model.ckpt'
         print('[Model]: model save at {}'.format(model_save_path))
 
@@ -118,6 +132,7 @@ def train(arg):
             train_batches = BatchGenerator(train_data, batch_size,
                     seq_len, source_map, target_map)
             feed_dict = {}
+            feed_dict[seq2seqModel.feed_previous] = False
             for batch in train_batches.next():
                 for i in range(seq_len):
                     feed_dict[seq2seqModel.encode_inputs[i]] = batch['encode'][i]
@@ -147,6 +162,7 @@ def train(arg):
                             seq_len, source_map, target_map)
                     v_loss = v_step = 0
                     feed_dict = {}
+                    feed_dict[seq2seqModel.feed_previous] = False
                     for v_batch in valid_batches.next():
                         for i in range(seq_len):
                             feed_dict[seq2seqModel.encode_inputs[i]] = v_batch['encode'][i]
@@ -169,6 +185,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Train seq2seq model.')
     parser.add_argument('--train_data', action='store', dest='train_data', required=True)
     parser.add_argument('--valid_data', action='store', dest='valid_data')
+    parser.add_argument('--map_dir', action='store', dest='map_dir', default='map')
     parser.add_argument('--batch_size', action='store', dest='batch_size', type=int, required=True)
     parser.add_argument('--rnn_size', action='store', dest='rnn_size', type=int, required=True)
     parser.add_argument('--seq_len', action='store', dest='seq_len', type=int, required=True)
