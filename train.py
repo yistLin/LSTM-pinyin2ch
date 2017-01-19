@@ -121,6 +121,7 @@ def train(arg):
         saver = tf.train.Saver()
 
         tf.add_to_collection('feed_previous', seq2seqModel.feed_previous)
+        tf.add_to_collection('output_keep_prob', seq2seqModel.output_keep_prob)
         for i in range(seq_len):
             tf.add_to_collection('encode_{}'.format(i), seq2seqModel.encode_inputs[i])
             tf.add_to_collection('decode_{}'.format(i), seq2seqModel.decode_inputs[i])
@@ -135,6 +136,7 @@ def train(arg):
                     seq_len, source_map, target_map)
             feed_dict = {}
             feed_dict[seq2seqModel.feed_previous] = False
+            feed_dict[seq2seqModel.output_keep_prob] = 0.5
             for batch in train_batches.next():
                 for i in range(seq_len):
                     feed_dict[seq2seqModel.encode_inputs[i]] = batch['encode'][i]
@@ -145,6 +147,7 @@ def train(arg):
                 loss += _loss
                 step_cnt += 1
                 if step_cnt % step_print == 0:
+                    feed_dict[seq2seqModel.output_keep_prob] = 1.0
                     outputs = sess.run(seq2seqModel.outputs, feed_dict=feed_dict)
                     answer, predict = [], []
                     rand = randint(0, batch_size-1)
@@ -165,6 +168,7 @@ def train(arg):
                     v_loss = v_step = 0
                     feed_dict = {}
                     feed_dict[seq2seqModel.feed_previous] = False
+                    feed_dict[seq2seqModel.output_keep_prob] = 1.0
                     for v_batch in valid_batches.next():
                         for i in range(seq_len):
                             feed_dict[seq2seqModel.encode_inputs[i]] = v_batch['encode'][i]

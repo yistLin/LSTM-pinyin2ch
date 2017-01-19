@@ -19,6 +19,7 @@ def test(arg):
         seq2seqModel.restore(sess, ckpt_dir + '/model.ckpt-1')
 
         feed_previous = tf.get_collection('feed_previous')[0]
+        output_keep_prob = tf.get_collection('output_keep_prob')[0]
         encode_inputs, decode_inputs, outputs = [], [], []
         for i in range(seq_len):
             encode_inputs.append(tf.get_collection('encode_{}'.format(i))[0])
@@ -46,6 +47,7 @@ def test(arg):
             _decode_inputs = [target_word2id['_GO']] + [target_word2id['_PAD']] * (seq_len - 1)
 
             feed_dict = {}
+            feed_dict[output_keep_prob] = 1.0
             feed_dict[feed_previous] = True
             for i in range(seq_len):
                 feed_dict[encode_inputs[i]] = [_encode_inputs[i]]
