@@ -25,10 +25,10 @@ def test(arg):
             decode_inputs.append(tf.get_collection('decode_{}'.format(i))[0])
             outputs.append(tf.get_collection('output_{}'.format(i))[0])
         
-        print('feed:', feed_previous)
-        print('encodes:', encode_inputs)
-        print('decodes:', decode_inputs)
-        print('outputs:', outputs)
+        # print('feed:', feed_previous)
+        # print('encodes:', encode_inputs)
+        # print('decodes:', decode_inputs)
+        # print('outputs:', outputs)
 
         while True:
             sys.stdout.write('> ')
@@ -40,7 +40,7 @@ def test(arg):
             pad_len = seq_len - len(sen)
             if pad_len < 0:
                 print('length of sentence should be <= {}'.format(seq_len))
-                break
+                continue
 
             _encode_inputs = list(reversed([source_word2id.get(x, source_word2id['_UNK']) for x in sen] + [source_word2id['_PAD']] * pad_len))
             _decode_inputs = [target_word2id['_GO']] + [target_word2id['_PAD']] * (seq_len - 1)
@@ -52,7 +52,8 @@ def test(arg):
                 feed_dict[decode_inputs[i]] = [_decode_inputs[i]]
 
             _outputs = sess.run([outputs], feed_dict=feed_dict)
-            print(' '.join([target_id2word[np.argmax(x)] for x in _outputs[0]]))
+            _outputs = [target_id2word[np.argmax(x)] for x in _outputs[0]]
+            print(' '.join(_outputs[:_outputs.index('_EOS')]))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('Test seq2seq model.')
