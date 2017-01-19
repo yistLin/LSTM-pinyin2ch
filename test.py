@@ -32,33 +32,70 @@ def test(arg):
         # print('decodes:', decode_inputs)
         # print('outputs:', outputs)
 
-        while True:
-            sys.stdout.write('> ')
-            sys.stdout.flush()  
-            sen = sys.stdin.readline()
-            if not sen:
-                break
-            sen = sen.strip().split()
-            pad_len = seq_len - len(sen)
-            if pad_len < 0:
-                print('length of sentence should be <= {}'.format(seq_len))
-                continue
+        if test_data is not None:
+            print('[Test]: file {}'.format(test_data))
+            with open(test_data) as f:
+                cnt, acc = 0, 0
+                for line in f:
+                    line = line.strip().split('\t')
+                    source, target = line[1].strip().split(), line[0].strip().split()
+                    target = [target_word2id.get(x, target_word2id['_UNK']) for x in target]                    
 
-            _encode_inputs = list(reversed([source_word2id.get(x, source_word2id['_UNK']) for x in sen] + [source_word2id['_PAD']] * pad_len))
-            _decode_inputs = [target_word2id['_GO']] + [target_word2id['_PAD']] * (seq_len - 1)
+                    pad_len = seq_len - len(source)
+                    if pad_len < 0:
+                        continue
 
-            feed_dict = {}
-            feed_dict[output_keep_prob] = 1.0
-            feed_dict[feed_previous] = True
-            for i in range(seq_len):
-                feed_dict[encode_inputs[i]] = [_encode_inputs[i]]
-                feed_dict[decode_inputs[i]] = [_decode_inputs[i]]
+                    _encode_inputs = list(reversed([source_word2id.get(x, source_word2id['_UNK']) for x in source] + [source_word2id['_PAD']] * pad_len))
+                    _decode_inputs = [target_word2id['_GO']] + [target_word2id['_PAD']] * (seq_len - 1)
+                    
+                    feed_dict = {}
+                    feed_dict[output_keep_prob] = 1.0
+                    feed_dict[feed_previous] = True
+                    for i in range(seq_len):
+                        feed_dict[encode_inputs[i]] = [_encode_inputs[i]]
+                        feed_dict[decode_inputs[i]] = [_decode_inputs[i]] 
 
-            _outputs = sess.run([outputs], feed_dict=feed_dict)
-            _outputs = [target_id2word[np.argmax(x)] for x in _outputs[0]]
-            if '_EOS' in _outputs:
-                _outputs = _outputs[:_outputs.index('_EOS')]
-            print(' '.join(_outputs))
+                    _outputs = sess.run([outputs], feed_dict=feed_dict)
+                    _outputs = [np.argmax(x) for x in _outputs[0]]
+                    _outputs = _outputs[:len(target)]
+
+                    correct = np.sum(np.equal(target, _outputs))
+                    acc += correct / len(target)
+                    cnt += 1
+
+                    if cnt % 100 == 0:
+                        print('Accuracy over {} sentences: {:.5f}%'.format(cnt, (acc / cnt)*100))
+
+                print('Accuracy over {} sentences: {:.5f}%'.format(cnt, (acc / cnt)*100))
+                    
+        else:
+            while True:
+                sys.stdout.write('> ')
+                sys.stdout.flush()  
+                sen = sys.stdin.readline()
+                if not sen:
+                    break
+                sen = sen.strip().split()
+                pad_len = seq_len - len(sen)
+                if pad_len < 0:
+                    print('length of sentence should be <= {}'.format(seq_len))
+                    continue
+
+                _encode_inputs = list(reversed([source_word2id.get(x, source_word2id['_UNK']) for x in sen] + [source_word2id['_PAD']] * pad_len))
+                _decode_inputs = [target_word2id['_GO']] + [target_word2id['_PAD']] * (seq_len - 1)
+
+                feed_dict = {}
+                feed_dict[output_keep_prob] = 1.0
+                feed_dict[feed_previous] = True
+                for i in range(seq_len):
+                    feed_dict[encode_inputs[i]] = [_encode_inputs[i]]
+                    feed_dict[decode_inputs[i]] = [_decode_inputs[i]]
+
+                _outputs = sess.run([outputs], feed_dict=feed_dict)
+                _outputs = [target_id2word[np.argmax(x)] for x in _outputs[0]]
+                if '_EOS' in _outputs:
+                    _outputs = _outputs[:_outputs.index('_EOS')]
+                print(' '.join(_outputs))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('Test seq2seq model.')
