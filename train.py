@@ -3,6 +3,7 @@ import argparse
 import numpy as np
 from model import *
 from collections import Counter
+from random import randint
 
 class BatchGenerator():
     def __init__(self, filename, batch_size, seq_len, source_map, target_map):
@@ -146,7 +147,7 @@ def train(arg):
                 if step_cnt % step_print == 0:
                     outputs = sess.run(seq2seqModel.outputs, feed_dict=feed_dict)
                     answer, predict = [], []
-                    rand = np.random.randint(batch_size, size=1, dtype=int)
+                    rand = randint(0, batch_size-1)
                     for (i, words) in enumerate(outputs):
                         answer.append(target_map.id2word[batch['target'][i][rand]])
                         predict.append(target_map.id2word[np.argmax(words, axis=1)[rand]])
