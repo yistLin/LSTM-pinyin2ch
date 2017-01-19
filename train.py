@@ -101,6 +101,7 @@ def train(arg):
     save_path = arg.save_path
     map_dir = arg.map_dir
     embedding_size = arg.embedding_size
+    keep_prob = arg.keep_prob
 
     source_map, target_map = preprocess(train_data)
     source_map.save('{}/source'.format(map_dir))
@@ -136,7 +137,7 @@ def train(arg):
                     seq_len, source_map, target_map)
             feed_dict = {}
             feed_dict[seq2seqModel.feed_previous] = False
-            feed_dict[seq2seqModel.output_keep_prob] = 0.5
+            feed_dict[seq2seqModel.output_keep_prob] = keep_prob
             for batch in train_batches.next():
                 for i in range(seq_len):
                     feed_dict[seq2seqModel.encode_inputs[i]] = batch['encode'][i]
@@ -189,15 +190,16 @@ def train(arg):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Train seq2seq model.')
+    parser.add_argument('--map_dir', action='store', dest='map_dir', default='map')
+    parser.add_argument('--batch_size', action='store', dest='batch_size', type=int, default=64)
+    parser.add_argument('--num_epoch', action='store', dest='num_epoch', type=int, default=3000)
+    parser.add_argument('--step_print', action='store', dest='step_print', type=int, default=100)
+    parser.add_argument('--embedding_size', action='store', dest='embedding_size', type=int, default=256)
+    parser.add_argument('--save_num_epoch', action='store', dest='save_num_epoch', type=int, default=1)
+    parser.add_argument('--keep_prob', action='store', dest='keep_prob', type=float, default=0.5)
     parser.add_argument('--train_data', action='store', dest='train_data', required=True)
     parser.add_argument('--valid_data', action='store', dest='valid_data')
-    parser.add_argument('--map_dir', action='store', dest='map_dir', default='map')
-    parser.add_argument('--batch_size', action='store', dest='batch_size', type=int, required=True)
     parser.add_argument('--rnn_size', action='store', dest='rnn_size', type=int, required=True)
     parser.add_argument('--seq_len', action='store', dest='seq_len', type=int, required=True)
-    parser.add_argument('--num_epoch', action='store', dest='num_epoch', type=int, required=True)
-    parser.add_argument('--step_print', action='store', dest='step_print', type=int, default=100)
-    parser.add_argument('--save_num_epoch', action='store', dest='save_num_epoch', type=int, default=1)
     parser.add_argument('--save_path', action='store', dest='save_path', required=True)
-    parser.add_argument('--embedding_size', action='store', dest='embedding_size', type=int, default=256)
     train(parser.parse_args())

@@ -26,6 +26,7 @@ class Model():
             self.output_keep_prob = tf.placeholder(tf.float32)
 
             rnn_cell = tf.nn.rnn_cell.BasicLSTMCell(rnn_size)
+            
             self.__rnn_cell = tf.nn.rnn_cell.DropoutWrapper(
                     rnn_cell,
                     output_keep_prob=self.output_keep_prob

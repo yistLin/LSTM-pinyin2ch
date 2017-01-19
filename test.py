@@ -5,6 +5,7 @@ import tensorflow as tf
 
 def test(arg):
     ckpt_dir = arg.ckpt_dir
+    ckpt_step = arg.ckpt_step
     test_data = arg.test_data
     map_dir = arg.map_dir
     seq_len = arg.seq_len
@@ -15,8 +16,8 @@ def test(arg):
     source_word2id = {y: x for (x, y) in enumerate(source_id2word)}
     target_word2id = {y: x for (x, y) in enumerate(target_id2word)}
     with tf.Session() as sess:
-        seq2seqModel = tf.train.import_meta_graph('{}/model.ckpt-1.meta'.format(ckpt_dir))
-        seq2seqModel.restore(sess, ckpt_dir + '/model.ckpt-1')
+        seq2seqModel = tf.train.import_meta_graph('{}/model.ckpt-{}.meta'.format(ckpt_dir, ckpt_step))
+        seq2seqModel.restore(sess, '{}/model.ckpt-{}'.format(ckpt_dir, ckpt_step))
 
         feed_previous = tf.get_collection('feed_previous')[0]
         output_keep_prob = tf.get_collection('output_keep_prob')[0]
@@ -55,12 +56,15 @@ def test(arg):
 
             _outputs = sess.run([outputs], feed_dict=feed_dict)
             _outputs = [target_id2word[np.argmax(x)] for x in _outputs[0]]
-            print(' '.join(_outputs[:_outputs.index('_EOS')]))
+            if '_EOS' in _outputs:
+                _outputs = _outputs[:_outputs.index('_EOS')]
+            print(' '.join(_outputs))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('Test seq2seq model.')
-    parser.add_argument('--ckpt_dir', action='store', dest='ckpt_dir', required=True)
     parser.add_argument('--map_dir', action='store', dest='map_dir', default='map')
-    parser.add_argument('--test_data', action='store', dest='test_data')
+    parser.add_argument('--ckpt_dir', action='store', dest='ckpt_dir', required=True)
+    parser.add_argument('--ckpt_step', action='store', dest='ckpt_step', required=True)
     parser.add_argument('--seq_len', action='store', dest='seq_len', type=int, required=True)
+    parser.add_argument('--test_data', action='store', dest='test_data')
     test(parser.parse_args())
