@@ -99,12 +99,13 @@ def train(arg):
     save_num_epoch = arg.save_num_epoch
     save_path = arg.save_path
     map_dir = arg.map_dir
+    embedding_size = arg.embedding_size
 
     source_map, target_map = preprocess(train_data)
     source_map.save('{}/source'.format(map_dir))
     target_map.save('{}/target'.format(map_dir))
 
-    seq2seqModel = Model(rnn_size, seq_len, source_map.size, target_map.size)
+    seq2seqModel = Model(rnn_size, seq_len, source_map.size, target_map.size, embedding_size)
     seq2seqModel.build_graph()
 
     loss = step_cnt = 0
@@ -193,4 +194,5 @@ if __name__ == '__main__':
     parser.add_argument('--step_print', action='store', dest='step_print', type=int, default=100)
     parser.add_argument('--save_num_epoch', action='store', dest='save_num_epoch', type=int, default=1)
     parser.add_argument('--save_path', action='store', dest='save_path', required=True)
+    parser.add_argument('--embedding_size', action='store', dest='embedding_size', type=int, default=256)
     train(parser.parse_args())

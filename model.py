@@ -2,17 +2,19 @@ import tensorflow as tf
 
 class Model():
 
-    def __init__(self, rnn_size, seq_len, source_vocab_size, target_vocab_size):
+    def __init__(self, rnn_size, seq_len, source_vocab_size, target_vocab_size, embedding_size):
         self.__rnn_size = rnn_size
         self.__seq_len = seq_len
         self.__source_vocab_size = source_vocab_size
         self.__target_vocab_size = target_vocab_size
+        self.__embedding_size = embedding_size
 
     def build_graph(self):
         rnn_size = self.__rnn_size
         seq_len = self.__seq_len
         source_vocab_size = self.__source_vocab_size
         target_vocab_size = self.__target_vocab_size
+        embedding_size = self.__embedding_size
 
         print('[Build graph]')
         self.graph = tf.Graph()
@@ -27,10 +29,11 @@ class Model():
 
             self.outputs, self.__state = tf.nn.seq2seq.embedding_rnn_seq2seq(
                     self.encode_inputs, 
-                    self.decode_inputs, self.__rnn_cell,
+                    self.decode_inputs, 
+                    self.__rnn_cell,
                     source_vocab_size, 
                     target_vocab_size, 
-                    embedding_size=256, 
+                    embedding_size=embedding_size, 
                     feed_previous=self.feed_previous)
 
             weights = [tf.fill(tf.shape(self.encode_inputs[0]), 1.0) for _ in range(seq_len)]
