@@ -32,7 +32,7 @@ class Model():
                     output_keep_prob=self.output_keep_prob
                     )
 
-            self.outputs, self.__state = tf.nn.seq2seq.embedding_rnn_seq2seq(
+            self.outputs, self.__state = tf.nn.seq2seq.embedding_attention_seq2seq(
                     self.encode_inputs, 
                     self.decode_inputs, 
                     self.__rnn_cell,
