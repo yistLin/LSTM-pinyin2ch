@@ -19,14 +19,12 @@ class Model():
         print('[Build graph]')
         self.graph = tf.Graph()
         with self.graph.as_default():
-            with tf.name_scope('placeholder'):
-                self.encode_inputs = [tf.placeholder(tf.int32, shape=(None,)) for _ in range(seq_len)]
-                self.decode_inputs = [tf.placeholder(tf.int32, shape=(None,)) for _ in range(seq_len)]
-                self.targets = [tf.placeholder(tf.int32, shape=(None,)) for _ in range(seq_len)]
-                self.feed_previous = tf.placeholder(tf.bool)
+            self.encode_inputs = [tf.placeholder(tf.int32, shape=(None,)) for _ in range(seq_len)]
+            self.decode_inputs = [tf.placeholder(tf.int32, shape=(None,)) for _ in range(seq_len)]
+            self.targets = [tf.placeholder(tf.int32, shape=(None,)) for _ in range(seq_len)]
+            self.feed_previous = tf.placeholder(tf.bool)
 
             rnn_cell = tf.nn.rnn_cell.BasicLSTMCell(rnn_size)
-            self.__rnn_cell = tf.nn.rnn_cell.DropoutWrapper(rnn_cell, output_keep_prob=0.5)
 
             self.outputs, self.__state = tf.nn.seq2seq.embedding_rnn_seq2seq(
                     self.encode_inputs, 
@@ -35,7 +33,8 @@ class Model():
                     source_vocab_size, 
                     target_vocab_size, 
                     embedding_size=embedding_size, 
-                    feed_previous=self.feed_previous)
+                    feed_previous=self.feed_previous
+                )
 
             weights = [tf.fill(tf.shape(self.encode_inputs[0]), 1.0) for _ in range(seq_len)]
             self.loss = tf.nn.seq2seq.sequence_loss(self.outputs, self.targets, weights)
